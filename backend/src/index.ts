@@ -1,0 +1,51 @@
+import express from "express";
+import cors from "cors";
+import { createServer } from "http";
+import { WebSocketServer, WebSocket } from "ws";
+import { registerRoutes } from "./routes/index.js";
+
+const app = express();
+const PORT = process.env.PORT ?? 4000;
+
+app.use(
+  cors({
+    origin: ["https://ganasuno.studio", "http://localhost:3000"],
+    credentials: true,
+  }),
+);
+app.use(express.json());
+
+registerRoutes(app);
+
+const server = createServer(app);
+
+const wss = new WebSocketServer({
+  server,
+});
+
+function broadcastOnlineCount(): void {
+  const count = wss.clients.size;
+
+  const message = JSON.stringify({
+    type: "online-count",
+    count,
+  });
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+}
+
+wss.on("connection", (socket) => {
+  broadcastOnlineCount();
+
+  socket.on("close", () => {
+    broadcastOnlineCount();
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(`GanaSuno backend running on http://localhost:${PORT}`);
+});

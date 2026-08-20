@@ -1,0 +1,438 @@
+import type { CSSProperties } from "react";
+import type { EraId, Song } from "@/types/music";
+
+export type EraThemeConfig = {
+  accentColor: string;
+  glassStyle: string | CSSProperties;
+  backgroundStyle: string | CSSProperties;
+};
+
+export type EraAmbientSoundConfig = {
+  enabled: boolean;
+  url: string;
+  volume: number;
+};
+
+export type EraQuoteConfig = {
+  primary: string;
+  alternates?: string[];
+  dynamic?: string[];
+};
+
+export type EraWorldObject = {
+  name: string;
+  label: string;
+  action: string;
+};
+
+export type EraWorldConfig = {
+  background: string;
+  scene: string;
+  worldLabel?: string;
+  ambientSound: EraAmbientSoundConfig;
+  character: string;
+  characterIcon?: string;
+  quotes: EraQuoteConfig;
+  objects: EraWorldObject[];
+};
+
+export type EraMusicConfig = {
+  songs: Song[];
+};
+
+export type EraInteractionConfig = {
+  button: string;
+  action: string;
+};
+
+const EMPTY_AMBIENT: EraAmbientSoundConfig = {
+  enabled: false,
+  url: "",
+  volume: 0,
+};
+
+const EMPTY_QUOTES: EraQuoteConfig = {
+  primary: "",
+  alternates: [],
+};
+
+const EMPTY_WORLD: Omit<EraWorldConfig, "background"> = {
+  scene: "",
+  ambientSound: EMPTY_AMBIENT,
+  character: "",
+  quotes: EMPTY_QUOTES,
+  objects: [],
+};
+
+export type EraConfig = {
+  id: EraId;
+  title: string;
+  description: string;
+  default: boolean;
+  theme: EraThemeConfig;
+  world: EraWorldConfig;
+  music: EraMusicConfig;
+  interaction: EraInteractionConfig;
+};
+
+export const ERAS: EraConfig[] = [
+  // 1970s
+  {
+    id: "1970s",
+    title: "1970's",
+    description: "Disco grooves, soulful ballads, and classic rock anthems",
+    default: false,
+
+    theme: {
+      accentColor: "#f97316",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/1970s.png",
+      scene: "Retro disco room with vinyl records and warm lights",
+      worldLabel: "1970's Retro Era",
+
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Vinyl Dada",
+      characterIcon: "🎵",
+
+      quotes: {
+        primary: "विनाइल की आवाज़ में एक अलग ही जादू था...",
+      },
+
+      objects: [
+        {
+          name: "vinyl",
+          label: "Play Vinyl",
+          action: "vinyl",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎵 Spin Vinyl",
+      action: "spin-vinyl",
+    },
+  },
+  // 1980s
+  {
+    id: "1980s",
+    title: "1980's",
+    description: "Synth sounds, disco energy, and unforgettable melodies",
+
+    default: false,
+
+    theme: {
+      accentColor: "#c084fc",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/1980s.png",
+
+      scene:
+        "Colorful 1980s Indian music room with cassette decks, neon lights and vintage posters",
+
+      worldLabel: "1980's Retro Era",
+
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Cassette Bhaiya",
+      characterIcon: "📼",
+
+      quotes: {
+        primary: "उस दौर के गाने आज भी दिल में वैसे ही बजते हैं...",
+      },
+
+      objects: [
+        {
+          name: "cassette",
+          label: "Play Cassette",
+          action: "play-cassette",
+        },
+        {
+          name: "radio",
+          label: "Tune Radio",
+          action: "tune",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📼 Play Cassette",
+      action: "play-cassette",
+    },
+  },
+
+  // 1990s
+  {
+    id: "1990s",
+    title: "1990's",
+    description: "Golden era of nostalgic melodies",
+    default: true,
+
+    theme: {
+      accentColor: "#e8a54b",
+
+      glassStyle: {
+        background: "rgba(36,24,14,0.52)",
+        borderColor: "rgba(232,165,75,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(80,45,20,0.32) 0%, rgba(20,12,8,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/1990s/background.png",
+
+      scene:
+        "1990s Indian living room with old TV, cassette player and warm lights",
+
+      worldLabel: "1990's Bollywood Era",
+
+      ambientSound: {
+        enabled: true,
+        url: "",
+        volume: 0.25,
+      },
+
+      character: "Radio Uncle",
+      characterIcon: "📻",
+
+      quotes: {
+        primary: "अरे बेटा, ये गाना तो पूरा मोहल्ला सुनता था...",
+
+        alternates: [
+          "उस जमाने में गाने सिर्फ सुने नहीं जाते थे, महसूस किए जाते थे.",
+          "कैसेट रिवाइंड करके, फिर से वही धुन... वही यादें।",
+        ],
+      },
+
+      objects: [
+        {
+          name: "cassette",
+          label: "Play Cassette",
+          action: "rewind",
+        },
+        {
+          name: "radio",
+          label: "Tune Radio",
+          action: "tune",
+        },
+        {
+          name: "television",
+          label: "Switch Channel",
+          action: "channel",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📻 Turn On Radio",
+      action: "toggle-radio",
+    },
+  },
+
+  // 2000s
+  {
+    id: "2000s",
+    title: "2000's",
+    description: "The digital revolution of music",
+
+    default: false,
+
+    theme: {
+      accentColor: "#38bdf8",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/2000s.png",
+
+      scene: "Early 2000s bedroom with computer, CDs and Nokia phones",
+
+      worldLabel: "2000's Digital Revolution",
+
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Cyber Cafe Bhaiya",
+      characterIcon: "💿",
+
+      quotes: {
+        primary: "Beta ek minute, internet connect ho raha hai...",
+
+        alternates: [
+          "Ringtone aur CD collections ka zamana tha.",
+          "Ek gaana download karna bhi ek adventure hota tha.",
+        ],
+      },
+
+      objects: [
+        {
+          name: "computer",
+          label: "Open Internet",
+          action: "browse",
+        },
+        {
+          name: "cd",
+          label: "Play CD",
+          action: "play-cd",
+        },
+        {
+          name: "phone",
+          label: "Check Nokia",
+          action: "nokia",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "💿 Enter Digital Era",
+      action: "open-digital-world",
+    },
+  },
+
+  // 2010s
+  {
+    id: "2010s",
+    title: "2010's",
+    description: "Streaming-era favorites",
+
+    default: false,
+
+    theme: {
+      accentColor: "#34d399",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/2010s.png",
+
+      scene: "Early smartphone era with headphones and online music",
+
+      worldLabel: "2010's Streaming Era",
+
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Playlist Friend",
+      characterIcon: "🎧",
+
+      quotes: {
+        primary: "Ek playlist aur hazaar memories...",
+      },
+
+      objects: [
+        {
+          name: "phone",
+          label: "Open Playlist",
+          action: "playlist",
+        },
+        {
+          name: "headphones",
+          label: "Wear Headphones",
+          action: "listen",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Open Playlist",
+      action: "open-playlist",
+    },
+  },
+
+  // 2020s
+  {
+    id: "2020s",
+    title: "2020's",
+    description: "Contemporary nostalgia and music of today",
+
+    default: false,
+
+    theme: {
+      accentColor: "#fb7185",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/2020s.png",
+
+      scene: "Modern digital music era",
+
+      worldLabel: "2020's Modern Era",
+
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Digital DJ",
+      characterIcon: "🎧",
+
+      quotes: {
+        primary: "हर generation की अपनी soundtrack होती है.",
+      },
+
+      objects: [
+        {
+          name: "phone",
+          label: "Discover Music",
+          action: "discover",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Explore Music",
+      action: "explore",
+    },
+  },
+];
+
+export const DEFAULT_ERA_ID: EraId =
+  ERAS.find((era) => era.default)?.id ?? "1990s";
+
+export function getEraById(id: string): EraConfig | undefined {
+  return ERAS.find((era) => era.id === id);
+}
+
+export function getDefaultEra(): EraConfig {
+  return getEraById(DEFAULT_ERA_ID) ?? ERAS[0];
+}
+
+export function isValidEraId(id: string): id is EraId {
+  return ERAS.some((era) => era.id === id);
+}
