@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { youtubeEngine } from "@/lib/audio/youtube-engine";
 
 declare global {

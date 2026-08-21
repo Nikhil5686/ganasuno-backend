@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import MusicPlayer from "@/components/music-player";
 import EraSelector from "@/components/era-selector";
@@ -415,7 +415,7 @@ export default function Home() {
   // PREVIOUS SONG
   // ============================================================
 
-  const handlePreviousSong = () => {
+  const handlePreviousSong = useCallback(() => {
     if (eraQueue.length === 0) {
       return;
     }
@@ -423,13 +423,13 @@ export default function Home() {
     setCurrentSongIndex((previousIndex) =>
       previousIndex > 0 ? previousIndex - 1 : eraQueue.length - 1,
     );
-  };
+  }, [eraQueue.length]);
 
   // ============================================================
   // NEXT SONG
   // ============================================================
 
-  const handleNextSong = () => {
+  const handleNextSong = useCallback(() => {
     if (eraQueue.length === 0) {
       return;
     }
@@ -437,7 +437,7 @@ export default function Home() {
     setCurrentSongIndex((previousIndex) =>
       previousIndex < eraQueue.length - 1 ? previousIndex + 1 : 0,
     );
-  };
+  }, [eraQueue.length]);
 
   // ============================================================
   // RENDER
