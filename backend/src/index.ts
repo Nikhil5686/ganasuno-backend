@@ -9,7 +9,11 @@ const PORT = process.env.PORT ?? 4000;
 
 app.use(
   cors({
-    origin: ["https://ganasuno.studio", "http://localhost:3000"],
+    origin: [
+      "https://ganasuno-kappa.vercel.app",
+      "https://ganasuno.studio",
+      "http://localhost:3000",
+    ],
     credentials: true,
   }),
 );
