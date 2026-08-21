@@ -11,6 +11,7 @@ app.use(
   cors({
     origin: [
       "https://ganasuno-kappa.vercel.app",
+      "https://www.ganasuno.studio",
       "https://ganasuno.studio",
       "http://localhost:3000",
     ],
