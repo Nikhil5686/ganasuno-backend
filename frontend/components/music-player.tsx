@@ -25,10 +25,12 @@ type MusicPlayerProps = {
   onNext: () => void;
   eraArtwork?: string;
   themeConfig?: PlayerThemeConfig;
+  eraQueue: Song[];
 };
 
 export default function MusicPlayer({
   song,
+  eraQueue,
   hasSongs,
   onPrevious,
   onNext,
@@ -50,7 +52,7 @@ export default function MusicPlayer({
   const hasDuration = duration > 0 && Number.isFinite(duration);
 
   /*
-   * Keep current time inside the actual YouTube duration.
+   * Keep current time inside the actual YouTube duMusicration.
    */
   const clampedCurrentTime = useMemo(() => {
     if (hasDuration) {

@@ -39,17 +39,21 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
         </div>
 
         <button
+          onClick={() => {
+            window.location.href =
+              "upi://pay?pa=raj5686-1@oksbi&pn=NIKHIL%20RAJ";
+          }}
           className="
-          mt-6
-          rounded-full
-          bg-amber-400
-          px-6
-          py-3
-          text-sm
-          font-semibold
-          text-black
-          hover:bg-amber-300
-          "
+  mt-6
+  rounded-full
+  bg-amber-400
+  px-6
+  py-3
+  text-sm
+  font-semibold
+  text-black
+  hover:bg-amber-300
+  "
         >
           Scan & Support
         </button>

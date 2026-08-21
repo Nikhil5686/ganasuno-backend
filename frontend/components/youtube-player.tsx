@@ -91,6 +91,8 @@ export default function YoutubePlayer({
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const endedRef = useRef(false);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -147,6 +149,7 @@ export default function YoutubePlayer({
           modestbranding: 1,
           playsinline: 1,
           rel: 0,
+
         },
 
         events: {
@@ -161,6 +164,8 @@ export default function YoutubePlayer({
              * Give the real YT.Player instance
              * to the central engine.
              */
+            endedRef.current = false;
+
             youtubeEngine.setPlayer(event.target);
 
             onReady?.();
@@ -190,21 +195,18 @@ export default function YoutubePlayer({
             if (playerState === window.YT.PlayerState.PLAYING) {
               youtubeEngine.setPlaying(true);
             } else if (playerState === window.YT.PlayerState.PAUSED) {
-
-            /*
-             * PAUSED
-             */
+              /*
+               * PAUSED
+               */
               youtubeEngine.setPlaying(false);
             } else if (playerState === window.YT.PlayerState.ENDED) {
+              if (endedRef.current) {
+                return;
+              }
 
-            /*
-             * ENDED
-             *
-             * Tell MusicPlayer to move to
-             * the next song.
-             */
+              endedRef.current = true;
+
               youtubeEngine.updateTime();
-
               youtubeEngine.setPlaying(false);
 
               onEnded?.();

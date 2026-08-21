@@ -75,6 +75,18 @@ const LANGUAGE_ERA_RULES: Record<string, EraId[] | "all"> = {
   Punjabi: [],
 };
 
+function shuffleSongs<T>(songs: T[]): T[] {
+  const shuffled = [...songs];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 export default function Home() {
   const jsonLd = [
     {
@@ -266,8 +278,10 @@ export default function Home() {
           return;
         }
 
-        setEraQueue(response.songs ?? []);
+        const songs = response.songs ?? [];
+        const shuffledSongs = shuffleSongs(songs);
 
+        setEraQueue(shuffledSongs);
         setCurrentSongIndex(0);
 
         setIsLoadingSongs(false);
@@ -525,15 +539,15 @@ export default function Home() {
                     aria-haspopup="listbox"
                     aria-expanded={isLanguageOpen}
                     className={`
-                      group flex items-center gap-2.5
-                      rounded-full
-                      border
-                      px-4 py-2
-                      text-xs
-                      font-medium
-                      tracking-wide
-                      backdrop-blur-xl
-                      transition-all duration-300
+                        group flex items-center gap-1.5 sm:gap-2.5
+                        rounded-full
+                        border
+                        px-3 py-1.5 sm:px-4 sm:py-2
+                        text-[11px] sm:text-xs
+                        font-medium
+                        tracking-wide
+                        backdrop-blur-xl
+                        transition-all duration-300
                       ${
                         isLanguageOpen
                           ? "border-[#e8a54b]/70 bg-[#e8a54b]/15 shadow-[0_0_25px_rgba(232,165,75,0.18)]"
@@ -578,11 +592,11 @@ export default function Home() {
                     {/* LANGUAGE */}
 
                     <span className="flex items-center gap-2">
-                      <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-stone-400">
+                      <span className="hidden text-[9px] font-medium uppercase tracking-[0.18em] text-stone-400 sm:inline">
                         Language
                       </span>
 
-                      <span className="min-w-[55px] text-left text-stone-100">
+                      <span className="min-w-0 text-left text-stone-100">
                         {selectedLanguage}
                       </span>
                     </span>
@@ -699,7 +713,7 @@ export default function Home() {
                               {isSelected && (
                                 <svg
                                   viewBox="0 0 24 24"
-                                  className="h-3.5 w-3.5 text-[#e8a54b]"
+                                  className="hidden h-3.5 w-3.5 sm:block text-[#e8a54b]"
                                   fill="none"
                                   stroke="currentColor"
                                   strokeWidth="2"
@@ -815,6 +829,7 @@ export default function Home() {
                   <MusicPlayer
                     key={currentSong?.id}
                     song={currentSong}
+                    eraQueue={eraQueue}
                     hasSongs={eraQueue.length > 0}
                     onPrevious={handlePreviousSong}
                     onNext={handleNextSong}
