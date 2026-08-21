@@ -76,6 +76,25 @@ const LANGUAGE_ERA_RULES: Record<string, EraId[] | "all"> = {
 };
 
 export default function Home() {
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "GanaSuno",
+      url: "https://ganasuno.studio",
+      description: "Relive Indian music through every era with GanaSuno.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      name: "GanaSuno",
+      url: "https://ganasuno.studio",
+      genre: ["Indian Music", "Bollywood", "Retro Music", "Hindi Songs"],
+      description:
+        "A nostalgic music platform that lets listeners explore Indian songs across different eras.",
+    },
+  ];
+
   // ============================================================
   // ERA
   // ============================================================
@@ -426,6 +445,12 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
       <main className="relative bg-black text-stone-100">
         {/* ======================================================
             HERO
