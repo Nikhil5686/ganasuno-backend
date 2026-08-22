@@ -3,6 +3,7 @@ import { Cinzel, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SupportButton from "@/components/support/support-button";
 
+
 const cinzel = Cinzel({
   variable: "--font-cinzel",
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
 
   description:
     "GanaSuno is a nostalgic music experience where you can relive Indian songs through different eras from the 1970s to today.",
+  manifest: "/manifest.webmanifest",
   verification: {
   google: "eW7TWnZJAklvSe8Gzdwra7-p5_y0LlrZrZ-QGIuFbM0",
 },
@@ -68,6 +70,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  themeColor: "#120504",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -85,3 +91,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+
