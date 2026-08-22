@@ -167,6 +167,18 @@ export default function MusicPlayer({
     }
   }, [song]);
 
+  useEffect(() => {
+    const handleNext = () => {
+      onNext();
+    };
+
+    window.addEventListener("ganasuno-next", handleNext);
+
+    return () => {
+      window.removeEventListener("ganasuno-next", handleNext);
+    };
+  }, [onNext]);
+
   /*
    * Album artwork.
    */

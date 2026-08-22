@@ -31,6 +31,7 @@ class YouTubeEngine {
    */
   setPlayer(player: any) {
     this.player = player;
+    this.setupMediaSession();
 
     if (this.pendingVideoId) {
       const videoId = this.pendingVideoId;
@@ -48,6 +49,29 @@ class YouTubeEngine {
     }
 
     this.notify();
+  }
+
+  setMediaMetadata(
+    title: string,
+    artist = "GanaSuno",
+    artwork = "/icons/icon-512.png",
+  ) {
+    if (!("mediaSession" in navigator)) {
+      return;
+    }
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title,
+      artist,
+      album: "GanaSuno",
+      artwork: [
+        {
+          src: artwork,
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+    });
   }
 
   /**
@@ -204,6 +228,28 @@ class YouTubeEngine {
 
   private notify() {
     this.listeners.forEach((fn) => fn());
+  }
+
+  private setupMediaSession() {
+    if (!("mediaSession" in navigator)) {
+      return;
+    }
+
+    navigator.mediaSession.setActionHandler("play", () => {
+      this.play();
+    });
+
+    navigator.mediaSession.setActionHandler("pause", () => {
+      this.pause();
+    });
+
+    navigator.mediaSession.setActionHandler("nexttrack", () => {
+      window.dispatchEvent(new Event("ganasuno-next"));
+    });
+
+    navigator.mediaSession.setActionHandler("previoustrack", () => {
+      window.dispatchEvent(new Event("ganasuno-previous"));
+    });
   }
 }
 
