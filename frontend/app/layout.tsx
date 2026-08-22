@@ -90,6 +90,32 @@ export default function RootLayout({
       className={`${cinzel.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "GanaSuno",
+              url: "https://ganasuno.studio",
+              description:
+                "Experience music through different eras with GanaSuno.",
+
+              creator: [
+                {
+                  "@type": "Person",
+                  name: "Swayam Chondigra",
+                  sameAs: ["https://github.com/SwayamChondigra/"],
+                },
+                {
+                  "@type": "Person",
+                  name: "Nikhil Shukla",
+                  sameAs: ["https://github.com/Nikhil5686"],
+                },
+              ],
+            }),
+          }}
+        />
         {children}
         <SupportButton />
       </body>
