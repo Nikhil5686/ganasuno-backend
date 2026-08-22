@@ -99,17 +99,19 @@ export default function RootLayout({
               name: "GanaSuno",
               url: "https://ganasuno.studio",
               description:
-                "Experience music through different eras with GanaSuno.",
+                "GanaSuno is a nostalgic music experience where you can relive Indian songs through different eras.",
 
               creator: [
                 {
                   "@type": "Person",
                   name: "Swayam Chondigra",
+                  url: "https://github.com/SwayamChondigra/",
                   sameAs: ["https://github.com/SwayamChondigra/"],
                 },
                 {
                   "@type": "Person",
                   name: "Nikhil Shukla",
+                  url: "https://github.com/Nikhil5686",
                   sameAs: ["https://github.com/Nikhil5686"],
                 },
               ],
