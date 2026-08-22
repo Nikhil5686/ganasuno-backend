@@ -19,7 +19,7 @@ import {
   ERAS,
   getDefaultEra,
   getEraById,
-  getStoredEraId,
+  getInitialEraId,
   isValidEraId,
   storeSelectedEraId,
 } from "@/lib/eras";
@@ -112,6 +112,14 @@ export default function Home() {
   // ============================================================
 
   const [selectedEraId, setSelectedEraId] = useState<EraId>(DEFAULT_ERA_ID);
+  const [isEraInitialized, setIsEraInitialized] = useState(false);
+
+  useEffect(() => {
+    const initialEraId = getInitialEraId();
+
+    setSelectedEraId(initialEraId);
+    setIsEraInitialized(true);
+  }, []);
 
   // ============================================================
   // LANGUAGE
@@ -252,22 +260,18 @@ export default function Home() {
   }, [previousEraId]);
 
   // ============================================================
-  // RESTORE STORED ERA
+  // LOAD SONGS
   // ============================================================
-
-  useEffect(() => {
-    const storedEraId = getStoredEraId();
-
-    if (storedEraId && isValidEraId(storedEraId)) {
-      setSelectedEraId(storedEraId);
-    }
-  }, []);
 
   // ============================================================
   // LOAD SONGS
   // ============================================================
 
   useEffect(() => {
+    if (!isEraInitialized) {
+      return;
+    }
+
     let cancelled = false;
 
     setIsLoadingSongs(true);
@@ -283,7 +287,6 @@ export default function Home() {
 
         setEraQueue(shuffledSongs);
         setCurrentSongIndex(0);
-
         setIsLoadingSongs(false);
       })
       .catch((error) => {
@@ -297,16 +300,14 @@ export default function Home() {
         );
 
         setEraQueue([]);
-
         setCurrentSongIndex(0);
-
         setIsLoadingSongs(false);
       });
 
     return () => {
       cancelled = true;
     };
-  }, [selectedEraId, selectedLanguage]);
+  }, [isEraInitialized, selectedEraId, selectedLanguage]);
 
   // ============================================================
   // CLEANUP TRANSITION TIMER
