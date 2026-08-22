@@ -14,6 +14,8 @@ import {
   type EraInteractionConfig,
 } from "@/data/eras";
 
+import type { EraId, Song } from "@/types/music";
+
 export {
   ERAS,
   DEFAULT_ERA_ID,
@@ -56,10 +58,12 @@ export function storeSelectedEraId(eraId: string): void {
   }
 }
 
-export function getInitialEraId(): string {
+export function getInitialEraId(): EraId {
   const stored = getStoredEraId();
+
   if (stored && isValidEraId(stored)) {
     return stored;
   }
+
   return DEFAULT_ERA_ID;
 }
