@@ -5,10 +5,11 @@ import Image from "next/image";
 
 import type { Song } from "@/types/music";
 
+import dynamic from "next/dynamic";
+
 import { formatAudioTime } from "@/lib/audio/engine";
 import { useYoutubeAudio, youtubeEngine } from "@/lib/audio/youtube-engine";
 
-import { fetchPlaybackSource } from "@/lib/api";
 import { useFavorites } from "@/hooks/use-favorites";
 
 import {
@@ -16,7 +17,9 @@ import {
   type PlayerThemeConfig,
 } from "@/lib/player/theme";
 
-import YoutubePlayer from "@/components/youtube-player";
+const YoutubePlayer = dynamic(() => import("@/components/youtube-player"), {
+  ssr: false,
+});
 
 type MusicPlayerProps = {
   song: Song | null;
@@ -79,80 +82,21 @@ export default function MusicPlayer({
    * ================================================================
    */
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadPlayback() {
-      /*
-       * No selected song.
-       */
-      if (!song) {
-        setYoutubeVideoId(null);
-        return;
-      }
-
-      /*
-       * Clear the previous video immediately.
-       *
-       * This prevents the previous song from remaining visible/
-       * playable while the new playback source is being fetched.
-       */
+    if (!song) {
       setYoutubeVideoId(null);
-
-      try {
-        const response = await fetchPlaybackSource(song.id);
-
-        /*
-         * Song changed while the request was running.
-         */
-        if (cancelled) {
-          return;
-        }
-
-        const playback = response.playback;
-
-        /*
-         * Currently GanaSuno uses YouTube playback.
-         */
-        if (playback.type === "youtube") {
-          console.log("Loading YouTube video:", playback.videoId);
-
-          /*
-           * Tell React to create the YouTube player for this ID.
-           */
-          setYoutubeVideoId(playback.videoId);
-
-          /*
-           * IMPORTANT:
-           *
-           * If the YouTube player is not ready yet,
-           * youtubeEngine.load() stores the ID as pending.
-           *
-           * Once YoutubePlayer calls setPlayer(),
-           * the engine loads it automatically.
-           */
-          youtubeEngine.load(playback.videoId, song.startTime ?? 0);
-
-          return;
-        }
-
-        /*
-         * We don't currently use HTML audio playback here.
-         */
-        console.warn("Unsupported playback type:", playback.type);
-      } catch (error) {
-        if (!cancelled) {
-          console.error("Playback loading failed:", error);
-
-          setYoutubeVideoId(null);
-        }
-      }
+      return;
     }
 
-    void loadPlayback();
+    if (song.provider === "youtube" && song.providerId) {
+      console.log("Loading YouTube video:", song.providerId);
 
-    return () => {
-      cancelled = true;
-    };
+      setYoutubeVideoId(song.providerId);
+
+      youtubeEngine.load(song.providerId, song.startTime ?? 0);
+    } else {
+      console.warn("No playable source found:", song);
+      setYoutubeVideoId(null);
+    }
   }, [song]);
 
   /*
@@ -273,10 +217,9 @@ export default function MusicPlayer({
         {/* ========================================================
             HIDDEN YOUTUBE PLAYER
         ======================================================== */}
-
-        {youtubeVideoId ? (
+        {youtubeVideoId && (
           <YoutubePlayer videoId={youtubeVideoId} onEnded={onNext} />
-        ) : null}
+        )}
 
         {/* ========================================================
             TIME

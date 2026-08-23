@@ -93,6 +93,14 @@ export default function YoutubePlayer({
 
   const endedRef = useRef(false);
 
+  const onEndedRef = useRef(onEnded);
+  const onReadyRef = useRef(onReady);
+
+  useEffect(() => {
+    onEndedRef.current = onEnded;
+    onReadyRef.current = onReady;
+  }, [onEnded, onReady]);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -112,28 +120,12 @@ export default function YoutubePlayer({
       }
 
       /*
-       * Destroy previous player before creating
-       * the new one.
-       */
-      if (playerRef.current) {
-        try {
-          playerRef.current.destroy();
-        } catch {
-          // Ignore destroy errors.
-        }
-
-        playerRef.current = null;
-      }
-
-      /*
        * Stop the previous time-update loop.
        */
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-
-      containerRef.current.innerHTML = "";
 
       const player = new window.YT.Player(containerRef.current, {
         width: 1,
@@ -149,7 +141,6 @@ export default function YoutubePlayer({
           modestbranding: 1,
           playsinline: 1,
           rel: 0,
-
         },
 
         events: {
@@ -160,19 +151,14 @@ export default function YoutubePlayer({
 
             playerRef.current = event.target;
 
-            /*
-             * Give the real YT.Player instance
-             * to the central engine.
-             */
             endedRef.current = false;
 
             youtubeEngine.setPlayer(event.target);
 
-            onReady?.();
+            console.log("YouTube player ready:", videoId);
 
-            /*
-             * Keep timeline synchronized.
-             */
+            onReadyRef.current?.();
+
             intervalRef.current = setInterval(() => {
               youtubeEngine.updateTime();
             }, 250);
@@ -209,7 +195,7 @@ export default function YoutubePlayer({
               youtubeEngine.updateTime();
               youtubeEngine.setPlaying(false);
 
-              onEnded?.();
+              onEndedRef.current?.();
             }
           },
 
@@ -250,7 +236,17 @@ export default function YoutubePlayer({
 
       youtubeEngine.clearPlayer();
     };
-  }, [videoId, onReady, onEnded]);
+  }, []);
+
+  useEffect(() => {
+    if (!videoId) {
+      return;
+    }
+
+    endedRef.current = false;
+
+    youtubeEngine.load(videoId);
+  }, [videoId]);
 
   return (
     <div

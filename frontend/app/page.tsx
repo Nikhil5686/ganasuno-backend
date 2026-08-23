@@ -19,7 +19,6 @@ import {
   ERAS,
   getDefaultEra,
   getEraById,
-  getInitialEraId,
   isValidEraId,
   storeSelectedEraId,
 } from "@/lib/eras";
@@ -112,14 +111,6 @@ export default function Home() {
   // ============================================================
 
   const [selectedEraId, setSelectedEraId] = useState<EraId>(DEFAULT_ERA_ID);
-  const [isEraInitialized, setIsEraInitialized] = useState(false);
-
-  useEffect(() => {
-    const initialEraId = getInitialEraId();
-
-    setSelectedEraId(initialEraId);
-    setIsEraInitialized(true);
-  }, []);
 
   // ============================================================
   // LANGUAGE
@@ -263,15 +254,7 @@ export default function Home() {
   // LOAD SONGS
   // ============================================================
 
-  // ============================================================
-  // LOAD SONGS
-  // ============================================================
-
   useEffect(() => {
-    if (!isEraInitialized) {
-      return;
-    }
-
     let cancelled = false;
 
     setIsLoadingSongs(true);
@@ -287,6 +270,11 @@ export default function Home() {
 
         setEraQueue(shuffledSongs);
         setCurrentSongIndex(0);
+        const firstSong = shuffledSongs[0];
+
+        if (firstSong) {
+          console.log("First song ready:", firstSong.title);
+        }
         setIsLoadingSongs(false);
       })
       .catch((error) => {
@@ -307,7 +295,7 @@ export default function Home() {
     return () => {
       cancelled = true;
     };
-  }, [isEraInitialized, selectedEraId, selectedLanguage]);
+  }, [selectedEraId, selectedLanguage]);
 
   // ============================================================
   // CLEANUP TRANSITION TIMER
@@ -828,7 +816,6 @@ export default function Home() {
                   </div>
                 ) : (
                   <MusicPlayer
-                    key={currentSong?.id}
                     song={currentSong}
                     eraQueue={eraQueue}
                     hasSongs={eraQueue.length > 0}
