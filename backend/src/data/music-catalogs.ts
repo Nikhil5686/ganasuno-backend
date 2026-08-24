@@ -57,4 +57,17 @@ export const MUSIC_CATALOGS: MusicCatalog[] = [
     eraId: "new",
     playlistId: "PLCPhwaq_5EWM",
   },
+
+  // Haryanvi
+  
+  {
+  language: "Haryanvi",
+  eraId: "old",
+  playlistId: "PLB45HKYZKUqU",
+},
+{
+  language: "Haryanvi",
+  eraId: "new",
+  playlistId: "PLavtZT2SgOqE",
+},
 ];

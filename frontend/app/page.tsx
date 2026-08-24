@@ -157,8 +157,8 @@ export default function Home() {
   // ============================================================
 
   const selectedEra = useMemo(() => {
-    return getEraById(selectedEraId) ?? getDefaultEra();
-  }, [selectedEraId]);
+    return getEraById(selectedEraId, selectedLanguage) ?? getDefaultEra();
+  }, [selectedEraId, selectedLanguage]);
 
   // ============================================================
   // ERA AVAILABILITY

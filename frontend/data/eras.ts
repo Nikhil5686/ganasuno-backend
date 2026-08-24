@@ -66,6 +66,7 @@ const EMPTY_WORLD: Omit<EraWorldConfig, "background"> = {
 
 export type EraConfig = {
   id: LanguageEraId;
+  language?: string;
   title: string;
   description: string;
   default: boolean;
@@ -423,6 +424,7 @@ export const ERAS: EraConfig[] = [
   // Bhojpuri Old
   {
     id: "old",
+    language: "Bhojpuri",
     title: "Old",
     description: "Classic Bhojpuri songs and timeless memories",
     default: false,
@@ -485,6 +487,7 @@ export const ERAS: EraConfig[] = [
   // Bhojpuri New
   {
     id: "new",
+    language: "Bhojpuri",
     title: "New",
     description: "Modern Bhojpuri hits and contemporary favorites",
     default: false,
@@ -544,12 +547,101 @@ export const ERAS: EraConfig[] = [
       action: "explore",
     },
   },
+
+  // Haryanvi Old
+  {
+    id: "old",
+    language: "Haryanvi",
+    title: "Old",
+    description: "Classic Haryanvi memories",
+    default: false,
+
+    theme: {
+      accentColor: "#e8a54b",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/haryanvi-old.png",
+      scene: "Old Haryanvi music era",
+      worldLabel: "Haryanvi Old Era",
+      ambientSound: EMPTY_AMBIENT,
+      character: "Haryanvi Radio Uncle",
+      characterIcon: "📻",
+      quotes: {
+        primary: "पुराने हरियाणवी गानों में देसी मिट्टी की खुशबू थी...",
+        alternates: [
+          "वो पुराने दिन, वो पुराने गाने... आज भी दिल में बसे हैं।",
+          "रेडियो और कैसेट के जमाने की अपनी अलग यादें थीं।",
+        ],
+      },
+      objects: [],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📻 Tune Haryanvi Radio",
+      action: "tune-radio",
+    },
+  },
+
+  // Haryanvi Old
+  {
+    id: "new",
+    language: "Haryanvi",
+    title: "New",
+    description: "Modern Haryanvi hits",
+    default: false,
+
+    theme: {
+      accentColor: "#38bdf8",
+      glassStyle: "",
+      backgroundStyle: "",
+    },
+
+    world: {
+      background: "/eras/haryanvi-new.png",
+      scene: "Modern Haryanvi music era",
+      worldLabel: "Haryanvi New Era",
+      ambientSound: EMPTY_AMBIENT,
+      character: "Haryanvi DJ",
+      characterIcon: "🎧",
+      quotes: {
+        primary: "नई बीट्स, लेकिन हरियाणवी अंदाज़ वही...",
+        alternates: [
+          "आज के गाने, नई आवाज़ और वही देसी रंग।",
+          "हरियाणवी म्यूजिक का नया दौर शुरू हो चुका है।",
+        ],
+      },
+      objects: [],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Explore Haryanvi",
+      action: "explore-haryanvi",
+    },
+  },
 ];
 
 export const DEFAULT_ERA_ID: LanguageEraId =
   ERAS.find((era) => era.default)?.id ?? "1990s";
 
-export function getEraById(id: string): EraConfig | undefined {
+export function getEraById(
+  id: string,
+  language?: string,
+): EraConfig | undefined {
+  if (language && (id === "old" || id === "new")) {
+    return ERAS.find((era) => era.id === id && era.language === language);
+  }
+
   return ERAS.find((era) => era.id === id);
 }
 

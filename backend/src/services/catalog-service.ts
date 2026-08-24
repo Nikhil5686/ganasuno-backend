@@ -67,7 +67,12 @@ export class CatalogService {
             artist: song.artist ?? "Unknown Artist",
             movie: song.movie,
             language,
-            year: era?.startYear ?? 0,
+            year:
+              normalizedEraId === "old"
+                ? 2010
+                : normalizedEraId === "new"
+                  ? 2020
+                  : era!.startYear,
             eraId: normalizedEraId,
             thumbnailUrl: song.thumbnailUrl,
             provider: "youtube",

@@ -49,7 +49,7 @@ export default function GanasunoFooter() {
           {/* Brand */}
           <Link
             href="/"
-            className="mt-3 font-display text-xl font-semibold uppercase tracking-[0.3em] text-stone-100 transition-colors duration-300 hover:text-amber-300 sm:text-2xl"
+            className="mt-3 font-display text-xl font-semibold uppercase tracking-[0.3em] text-amber-400 transition-colors duration-300 hover:text-amber-300 sm:text-2xl"
           >
             GANASUNO
           </Link>
