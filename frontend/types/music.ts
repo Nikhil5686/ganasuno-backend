@@ -1,13 +1,11 @@
-export type EraId =
-  | "1970s"
-  | "1980s"
-  | "1990s"
-  | "2000s"
-  | "2010s"
-  | "2020s";
+export type EraId = "1970s" | "1980s" | "1990s" | "2000s" | "2010s" | "2020s";
+
+export type SimpleEraId = "old" | "new";
+
+export type LanguageEraId = EraId | SimpleEraId;
 
 export interface Era {
-  id: EraId;
+  id: LanguageEraId;
   label: string;
   startYear?: number;
   endYear?: number;
@@ -33,38 +31,31 @@ export interface Song {
   artist: string;
   language: SongLanguage;
   year: number;
-  eraId: EraId;
-  thumbnailUrl?: string;
-  provider?: MusicProviderType;
-  providerId?: string;
-  nostalgiaScore?: number;
-  popularityScore?: number;
-  historicalScore?: number;
-  finalScore?: number;
-  rank?: number;
-  tier?: NostalgiaTier;
-  isActive?: boolean;
-  duration?: string;
-  audioUrl?: string;
-  startTime?: number;
-}
 
-export interface Song {
-  id: string;
-  title: string;
-  artist: string;
-  year: number;
-  eraId: EraId;
+  /*
+   * Hindi uses:
+   * 1970s / 1980s / 1990s / 2000s / 2010s / 2020s
+   *
+   * Other languages can use:
+   * old / new
+   */
+  eraId: LanguageEraId;
+
   thumbnailUrl?: string;
+
   provider?: MusicProviderType;
   providerId?: string;
+
   nostalgiaScore?: number;
   popularityScore?: number;
   historicalScore?: number;
   finalScore?: number;
+
   rank?: number;
   tier?: NostalgiaTier;
+
   isActive?: boolean;
+
   duration?: string;
   audioUrl?: string;
   startTime?: number;
@@ -72,12 +63,13 @@ export interface Song {
 
 export interface EraSongsResponse {
   era: {
-    id: EraId;
+    id: LanguageEraId;
     label: string;
     startYear: number;
     endYear: number;
     artwork: string;
   };
+
   songs: Song[];
   total: number;
 }

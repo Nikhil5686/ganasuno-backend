@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { youtubeEngine } from "@/lib/audio/youtube-engine";
 
 declare global {
@@ -71,13 +71,31 @@ function loadYouTubeApi(): Promise<void> {
     const script = document.createElement("script");
 
     script.src = "https://www.youtube.com/iframe_api";
-
     script.async = true;
 
     document.head.appendChild(script);
   });
 
   return youtubeApiPromise;
+}
+
+/*
+ * YouTube IFrame API error codes:
+ *
+ * 2   = invalid video ID
+ * 5   = HTML5 player error
+ * 100 = video not found/private
+ * 101 = embedding not allowed
+ * 150 = embedding not allowed
+ */
+function isUnavailableVideoError(errorCode: number): boolean {
+  return (
+    errorCode === 2 ||
+    errorCode === 5 ||
+    errorCode === 100 ||
+    errorCode === 101 ||
+    errorCode === 150
+  );
 }
 
 export default function YoutubePlayer({
@@ -92,6 +110,8 @@ export default function YoutubePlayer({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const endedRef = useRef(false);
+
+  const errorHandledRef = useRef(false);
 
   const onEndedRef = useRef(onEnded);
   const onReadyRef = useRef(onReady);
@@ -119,13 +139,13 @@ export default function YoutubePlayer({
         return;
       }
 
-      /*
-       * Stop the previous time-update loop.
-       */
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
+
+      errorHandledRef.current = false;
+      endedRef.current = false;
 
       const player = new window.YT.Player(containerRef.current, {
         width: 1,
@@ -152,6 +172,7 @@ export default function YoutubePlayer({
             playerRef.current = event.target;
 
             endedRef.current = false;
+            errorHandledRef.current = false;
 
             youtubeEngine.setPlayer(event.target);
 
@@ -175,15 +196,9 @@ export default function YoutubePlayer({
               return;
             }
 
-            /*
-             * PLAYING
-             */
             if (playerState === window.YT.PlayerState.PLAYING) {
               youtubeEngine.setPlaying(true);
             } else if (playerState === window.YT.PlayerState.PAUSED) {
-              /*
-               * PAUSED
-               */
               youtubeEngine.setPlaying(false);
             } else if (playerState === window.YT.PlayerState.ENDED) {
               if (endedRef.current) {
@@ -200,9 +215,54 @@ export default function YoutubePlayer({
           },
 
           onError: (event) => {
+            if (cancelled) {
+              return;
+            }
+
+            const errorCode = event.data;
+
+            console.warn("YouTube video unavailable:", {
+              errorCode,
+              videoId,
+            });
+
+            /*
+             * Prevent duplicate callbacks.
+             */
+            if (errorHandledRef.current) {
+              return;
+            }
+
+            if (isUnavailableVideoError(errorCode)) {
+              errorHandledRef.current = true;
+              endedRef.current = true;
+
+              youtubeEngine.setPlaying(false);
+
+              if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+              }
+
+              /*
+               * Give React a moment to process the
+               * failed player before moving to the
+               * next song.
+               */
+              setTimeout(() => {
+                if (!cancelled) {
+                  console.warn(`Skipping unavailable YouTube video ${videoId}`);
+
+                  onEndedRef.current?.();
+                }
+              }, 100);
+
+              return;
+            }
+
             console.error(
               "YouTube player error:",
-              event.data,
+              errorCode,
               "videoId:",
               videoId,
             );
@@ -220,7 +280,6 @@ export default function YoutubePlayer({
 
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
-
         intervalRef.current = null;
       }
 
@@ -244,6 +303,7 @@ export default function YoutubePlayer({
     }
 
     endedRef.current = false;
+    errorHandledRef.current = false;
 
     youtubeEngine.load(videoId);
   }, [videoId]);

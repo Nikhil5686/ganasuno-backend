@@ -1,5 +1,9 @@
 export type EraId = "1970s" | "1980s" | "1990s" | "2000s" | "2010s" | "2020s";
 
+export type SimpleEraId = "old" | "new";
+
+export type CatalogEraId = EraId | SimpleEraId;
+
 export interface Era {
   id: EraId;
   label: string;
@@ -59,6 +63,6 @@ export function getEraById(id: string): Era | undefined {
   return ERAS.find((era) => era.id === id);
 }
 
-export function isValidEraId(id: string): id is EraId {
-  return ERAS.some((era) => era.id === id);
+export function isValidEraId(id: string): id is CatalogEraId {
+  return ERAS.some((era) => era.id === id) || id === "old" || id === "new";
 }

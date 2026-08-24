@@ -11,17 +11,17 @@ const FAQS = [
   {
     question: "How do I explore different eras?",
     answer:
-      "Use the era selector above the music player. Hindi currently supports the full era timeline, while other languages may have specific catalog availability.",
+      "Use the era selector above the music player to move through different generations of music. Choose an era, pick a language, and start listening.",
   },
   {
     question: "Which languages are available?",
     answer:
-      "GanaSuno is being built to support Hindi, English, Bhojpuri, Gujarati, Haryanvi and Punjabi music. Catalog availability can differ between languages.",
+      "GanaSuno brings together music across Hindi, English, Bhojpuri, Gujarati, Haryanvi and Punjabi, with the catalog continuing to grow over time.",
   },
   {
-    question: "Why are some eras unavailable for certain languages?",
+    question: "Can I switch between languages?",
     answer:
-      "Different languages currently use different curated playlists. Some catalogs are available as a single playlist, while others are organized across specific eras.",
+      "Yes. You can switch between supported languages while exploring GanaSuno. Each language has its own collection of songs and eras.",
   },
   {
     question: "Where does the music come from?",
@@ -31,7 +31,7 @@ const FAQS = [
   {
     question: "Can I suggest songs or playlists?",
     answer:
-      "Yes. As GanaSuno grows, suggestions can help expand and improve the catalog across eras and languages.",
+      "Absolutely. As GanaSuno grows, song and playlist suggestions can help us expand the catalog and bring more nostalgic music to the platform.",
   },
 ];
 

@@ -1,5 +1,5 @@
 import { MUSIC_CATALOGS } from "../data/music-catalogs.js";
-import type { EraId } from "../types/era.js";
+import type { CatalogEraId } from "../types/era.js";
 import { getEraById, isValidEraId } from "../types/era.js";
 import type { Song, EraSongsResponse } from "../types/song.js";
 import { rankSongs } from "./ranking-engine.js";
@@ -18,21 +18,32 @@ export class CatalogService {
     eraId: string,
     language: string = "Hindi",
   ): Promise<EraSongsResponse | null> {
-    if (!isValidEraId(eraId)) {
-      return null;
-    }
-
-    const era = getEraById(eraId);
-
-    if (!era) {
-      return null;
-    }
-
     const normalizedLanguage = language.trim().toLowerCase();
+    const normalizedEraId = eraId.trim().toLowerCase() as CatalogEraId;
+
+    /*
+     * Hindi uses the existing historical eras.
+     * Other languages can use the simplified "old" / "new" catalog eras.
+     */
+    const isSimpleEra = normalizedEraId === "old" || normalizedEraId === "new";
+
+    if (!isSimpleEra && !isValidEraId(normalizedEraId)) {
+      return null;
+    }
+
+    /*
+     * Historical era information exists only for the
+     * existing 1970s–2020s eras.
+     */
+    const era = isSimpleEra ? null : getEraById(normalizedEraId);
+
+    if (!isSimpleEra && !era) {
+      return null;
+    }
 
     const catalog = MUSIC_CATALOGS.find(
       (item) =>
-        item.eraId === eraId &&
+        item.eraId === normalizedEraId &&
         item.language.toLowerCase() === normalizedLanguage,
     );
 
@@ -41,15 +52,13 @@ export class CatalogService {
     let eraSongs: Song[];
 
     if (playlistId) {
-      const playlistKey = `${normalizedLanguage}:${eraId}`;
+      const playlistKey = `${normalizedLanguage}:${normalizedEraId}`;
 
       let cachedSongs = this.playlistSongs.get(playlistKey);
 
       if (!cachedSongs) {
         const playlistSongs =
           await youtubePlaylistService.getPlaylistSongs(playlistId);
-
-        // existing mapping code...
 
         cachedSongs = playlistSongs.map(
           (song): Song => ({
@@ -58,14 +67,12 @@ export class CatalogService {
             artist: song.artist ?? "Unknown Artist",
             movie: song.movie,
             language,
-            year: era.startYear,
-            eraId: era.id,
+            year: era?.startYear ?? 0,
+            eraId: normalizedEraId,
             thumbnailUrl: song.thumbnailUrl,
             provider: "youtube",
             providerId: song.providerId,
 
-            // Neutral values until proper metadata
-            // enrichment is implemented.
             nostalgiaScore: 0,
             popularityScore: 0,
             historicalScore: 0,
@@ -81,20 +88,29 @@ export class CatalogService {
     } else {
       eraSongs = this.songs.filter(
         (song) =>
-          song.eraId === eraId &&
+          song.eraId === normalizedEraId &&
           song.language?.trim().toLowerCase() === normalizedLanguage,
       );
     }
 
     const ranked = rankSongs(eraSongs);
 
+    /*
+     * Simple eras don't have historical years or artwork yet.
+     * We provide safe values until the frontend has dedicated
+     * Old/New presentation metadata.
+     */
     return {
       era: {
-        id: era.id,
-        label: era.label,
-        startYear: era.startYear,
-        endYear: era.endYear,
-        artwork: era.artwork,
+        id: normalizedEraId,
+        label: isSimpleEra
+          ? normalizedEraId === "old"
+            ? "Old"
+            : "New"
+          : era!.label,
+        startYear: era?.startYear ?? 0,
+        endYear: era?.endYear ?? 0,
+        artwork: era?.artwork ?? "",
       },
       songs: ranked,
       total: ranked.length,

@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { EraId, Song } from "@/types/music";
+import type { LanguageEraId, Song } from "@/types/music";
 
 export type EraThemeConfig = {
   accentColor: string;
@@ -65,7 +65,7 @@ const EMPTY_WORLD: Omit<EraWorldConfig, "background"> = {
 };
 
 export type EraConfig = {
-  id: EraId;
+  id: LanguageEraId;
   title: string;
   description: string;
   default: boolean;
@@ -420,9 +420,133 @@ export const ERAS: EraConfig[] = [
       action: "explore",
     },
   },
+  // Bhojpuri Old
+  {
+    id: "old",
+    title: "Old",
+    description: "Classic Bhojpuri songs and timeless memories",
+    default: false,
+
+    theme: {
+      accentColor: "#d4a574",
+      glassStyle: {
+        background: "rgba(36,24,14,0.52)",
+        borderColor: "rgba(212,165,116,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(80,45,20,0.32) 0%, rgba(20,12,8,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/1990s/background.png",
+      scene: "Classic Bhojpuri music room with cassette player and warm lights",
+      worldLabel: "Bhojpuri Old Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Bhojpuri Radio Uncle",
+      characterIcon: "📻",
+
+      quotes: {
+        primary: "पुराने भोजपुरी गानों में एक अलग ही मिट्टी की खुशबू थी...",
+        alternates: [
+          "कुछ गाने पुराने होते हैं, लेकिन उनकी यादें कभी पुरानी नहीं होतीं.",
+          "वो दौर जब भोजपुरी गाने हर गली और हर घर में बजते थे.",
+        ],
+      },
+
+      objects: [
+        {
+          name: "radio",
+          label: "Tune Radio",
+          action: "tune",
+        },
+        {
+          name: "cassette",
+          label: "Play Cassette",
+          action: "rewind",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📻 Tune Bhojpuri Radio",
+      action: "toggle-radio",
+    },
+  },
+
+  // Bhojpuri New
+  {
+    id: "new",
+    title: "New",
+    description: "Modern Bhojpuri hits and contemporary favorites",
+    default: false,
+
+    theme: {
+      accentColor: "#fb7185",
+      glassStyle: {
+        background: "rgba(35,18,24,0.52)",
+        borderColor: "rgba(251,113,133,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(90,25,40,0.28) 0%, rgba(20,8,12,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/2020s.png",
+      scene:
+        "Modern Bhojpuri music world with digital playlists and headphones",
+      worldLabel: "Bhojpuri New Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Bhojpuri DJ",
+      characterIcon: "🎧",
+
+      quotes: {
+        primary: "नए दौर की धुन, लेकिन भोजपुरी का वही अंदाज़...",
+        alternates: [
+          "नई generation, नई धुनें, वही Bhojpuri vibe.",
+          "हर दौर की अपनी आवाज़ होती है.",
+        ],
+      },
+
+      objects: [
+        {
+          name: "phone",
+          label: "Discover Music",
+          action: "discover",
+        },
+        {
+          name: "headphones",
+          label: "Listen",
+          action: "listen",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Explore Bhojpuri",
+      action: "explore",
+    },
+  },
 ];
 
-export const DEFAULT_ERA_ID: EraId =
+export const DEFAULT_ERA_ID: LanguageEraId =
   ERAS.find((era) => era.default)?.id ?? "1990s";
 
 export function getEraById(id: string): EraConfig | undefined {
@@ -433,6 +557,6 @@ export function getDefaultEra(): EraConfig {
   return getEraById(DEFAULT_ERA_ID) ?? ERAS[0];
 }
 
-export function isValidEraId(id: string): id is EraId {
+export function isValidEraId(id: string): id is LanguageEraId {
   return ERAS.some((era) => era.id === id);
 }

@@ -1,4 +1,4 @@
-import type { EraId } from "./era.js";
+import type { CatalogEraId } from "./era.js";
 
 export type MusicProviderType = "youtube" | "spotify" | "licensed" | "local";
 
@@ -21,7 +21,7 @@ export interface Song {
   language?: string;
   genre?: string;
   year: number;
-  eraId: EraId;
+  eraId: CatalogEraId;
   thumbnailUrl?: string;
   provider: MusicProviderType;
   providerId?: string;
@@ -39,7 +39,7 @@ export interface Song {
 
 export interface EraSongsResponse {
   era: {
-    id: EraId;
+    id: CatalogEraId;
     label: string;
     startYear: number;
     endYear: number;

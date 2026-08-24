@@ -1,6 +1,10 @@
 import type { Request, Response } from "express";
 import { catalogService } from "../services/catalog-service.js";
-import { ERAS, DEFAULT_ERA_ID, isValidEraId } from "../types/era.js";
+import {
+  ERAS,
+  DEFAULT_ERA_ID,
+  isValidEraId,
+} from "../types/era.js";
 import { getMusicProvider } from "../services/provider-manager.js";
 
 export async function getSongs(req: Request, res: Response): Promise<void> {
@@ -12,13 +16,21 @@ export async function getSongs(req: Request, res: Response): Promise<void> {
 
   if (!isValidEraId(eraId)) {
     res.status(400).json({
-      error: `Invalid era "${eraId}". Must be one of: ${ERAS.map(
-        (e) => e.id,
-      ).join(", ")}`,
-      validEras: ERAS.map((e) => ({
-        id: e.id,
-        label: e.label,
-      })),
+      error: `Invalid era "${eraId}".`,
+      validEras: [
+        ...ERAS.map((e) => ({
+          id: e.id,
+          label: e.label,
+        })),
+        {
+          id: "old",
+          label: "Old",
+        },
+        {
+          id: "new",
+          label: "New",
+        },
+      ],
     });
 
     return;

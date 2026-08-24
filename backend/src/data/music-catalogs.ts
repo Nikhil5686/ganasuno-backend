@@ -1,13 +1,17 @@
-import type { EraId } from "../types/era.js";
+import type { CatalogEraId } from "../types/era.js";
 import type { SongLanguage } from "../types/song.js";
 
 export interface MusicCatalog {
   language: SongLanguage;
-  eraId: EraId;
+  eraId: CatalogEraId;
   playlistId: string;
 }
 
 export const MUSIC_CATALOGS: MusicCatalog[] = [
+  // =========================
+  // HINDI
+  // =========================
+
   {
     language: "Hindi",
     eraId: "1970s",
@@ -37,5 +41,20 @@ export const MUSIC_CATALOGS: MusicCatalog[] = [
     language: "Hindi",
     eraId: "2020s",
     playlistId: "PLVJLDURxwO2tPCJxQjgfvwEo--JGjB3wu",
+  },
+
+  // =========================
+  // BHOJPURI
+  // =========================
+
+  {
+    language: "Bhojpuri",
+    eraId: "old",
+    playlistId: "PLZ9cT_s0Z8CU",
+  },
+  {
+    language: "Bhojpuri",
+    eraId: "new",
+    playlistId: "PLCPhwaq_5EWM",
   },
 ];

@@ -6,8 +6,8 @@ import MusicPlayer from "@/components/music-player";
 import EraSelector from "@/components/era-selector";
 import GanasunoFooter from "@/components/ganasuno-footer";
 
-import WelcomeSection from "@/components/welcome-section";
 import AboutSection from "@/components/about-section";
+import FoundersSection from "@/components/founders-section";
 import FAQSection from "@/components/faq-section";
 
 import NostalgiaCard from "@/components/era-world/nostalgia-card";
@@ -23,7 +23,7 @@ import {
   storeSelectedEraId,
 } from "@/lib/eras";
 
-import type { EraId } from "@/types/music";
+import type { LanguageEraId, Song } from "@/types/music";
 
 import { fetchSongsByEra } from "@/lib/api";
 
@@ -37,8 +37,6 @@ import {
   getEraBackgroundOverlay,
   getEraGlassStyle,
 } from "@/lib/era-world/theme-utils";
-
-import type { Song } from "@/types/music";
 
 const ERA_TRANSITION_MS = 800;
 
@@ -63,15 +61,14 @@ const LANGUAGES = [
  * Other languages:
  *   Single playlist, therefore no era switching.
  */
-const LANGUAGE_ERA_RULES: Record<string, EraId[] | "all"> = {
-  Hindi: "all",
+const LANGUAGE_ERA_RULES: Record<string, LanguageEraId[] | "all"> = {
+  Hindi: ["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"],
 
-  Bhojpuri: ["1990s", "2010s"],
-
-  English: [],
-  Gujarati: [],
-  Haryanvi: [],
-  Punjabi: [],
+  English: ["old", "new"],
+  Bhojpuri: ["old", "new"],
+  Gujarati: ["old", "new"],
+  Haryanvi: ["old", "new"],
+  Punjabi: ["old", "new"],
 };
 
 function shuffleSongs<T>(songs: T[]): T[] {
@@ -110,7 +107,8 @@ export default function Home() {
   // ERA
   // ============================================================
 
-  const [selectedEraId, setSelectedEraId] = useState<EraId>(DEFAULT_ERA_ID);
+  const [selectedEraId, setSelectedEraId] =
+    useState<LanguageEraId>(DEFAULT_ERA_ID);
 
   // ============================================================
   // LANGUAGE
@@ -166,37 +164,23 @@ export default function Home() {
   // ERA AVAILABILITY
   // ============================================================
 
-  const isEraEnabledForLanguage = (eraId: EraId): boolean => {
+  const availableEraIds = useMemo<LanguageEraId[]>(() => {
     const rule = LANGUAGE_ERA_RULES[selectedLanguage];
 
-    if (rule === "all") {
-      return true;
-    }
-
-    return rule.includes(eraId);
-  };
-
-  /*
-   * Era IDs that must be disabled in the selector.
-   *
-   * Hindi:
-   *   []
-   *
-   * Bhojpuri:
-   *   1970s, 1980s, 2000s, 2020s
-   *
-   * Other languages:
-   *   every era
-   */
-  const disabledEraIds = useMemo<EraId[]>(() => {
-    const rule = LANGUAGE_ERA_RULES[selectedLanguage];
-
-    if (rule === "all") {
+    if (!rule) {
       return [];
     }
 
-    return ERAS.filter((era) => !rule.includes(era.id)).map((era) => era.id);
+    return rule === "all" ? ERAS.map((era) => era.id) : rule;
   }, [selectedLanguage]);
+
+  const availableEras = useMemo(() => {
+    return ERAS.filter((era) => availableEraIds.includes(era.id));
+  }, [availableEraIds]);
+
+  const isEraEnabledForLanguage = (eraId: LanguageEraId): boolean => {
+    return availableEraIds.includes(eraId);
+  };
 
   // ============================================================
   // PLAYER THEME
@@ -308,7 +292,6 @@ export default function Home() {
       }
     };
   }, []);
-
   // ============================================================
   // ERA SELECT
   // ============================================================
@@ -318,38 +301,26 @@ export default function Home() {
       return;
     }
 
-    /*
-     * Safety check:
-     * Even if someone bypasses the disabled button,
-     * the era cannot be selected when unavailable.
-     */
     if (!isEraEnabledForLanguage(eraId)) {
       return;
     }
 
-    // Save current era for crossfade.
     setPreviousEraId(selectedEraId);
 
-    // Change era.
     setSelectedEraId(eraId);
 
-    // Persist era.
     storeSelectedEraId(eraId);
 
-    // Start queue from first song.
     setCurrentSongIndex(0);
 
-    // Show loading state.
     setIsLoadingSongs(true);
 
-    // Start visual transition.
     setIsTransitioning(true);
 
     setTimeout(() => {
       setIsTransitioning(false);
     }, ERA_TRANSITION_MS);
 
-    // Clear previous era after transition.
     if (clearPreviousTimerRef.current) {
       clearTimeout(clearPreviousTimerRef.current);
     }
@@ -374,38 +345,39 @@ export default function Home() {
 
     setIsLoadingSongs(true);
 
-    /*
-     * For Bhojpuri, automatically move to
-     * 1990s if the current era isn't allowed.
-     *
-     * For all other non-Hindi languages,
-     * keep one default era internally.
-     */
     const rule = LANGUAGE_ERA_RULES[language];
 
-    if (rule !== "all" && rule.length > 0 && !rule.includes(selectedEraId)) {
-      const nextEra = rule[0];
-
-      setPreviousEraId(selectedEraId);
-
-      setSelectedEraId(nextEra);
-
-      storeSelectedEraId(nextEra);
-
-      setIsTransitioning(true);
-
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, ERA_TRANSITION_MS);
-
-      if (clearPreviousTimerRef.current) {
-        clearTimeout(clearPreviousTimerRef.current);
-      }
-
-      clearPreviousTimerRef.current = setTimeout(() => {
-        setPreviousEraId(null);
-      }, ERA_TRANSITION_MS + 100);
+    if (!rule || rule.length === 0) {
+      return;
     }
+
+    const availableIds = rule === "all" ? ERAS.map((era) => era.id) : rule;
+
+    if (availableIds.includes(selectedEraId)) {
+      return;
+    }
+
+    const nextEra = availableIds[0];
+
+    setPreviousEraId(selectedEraId);
+
+    setSelectedEraId(nextEra);
+
+    storeSelectedEraId(nextEra);
+
+    setIsTransitioning(true);
+
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, ERA_TRANSITION_MS);
+
+    if (clearPreviousTimerRef.current) {
+      clearTimeout(clearPreviousTimerRef.current);
+    }
+
+    clearPreviousTimerRef.current = setTimeout(() => {
+      setPreviousEraId(null);
+    }, ERA_TRANSITION_MS + 100);
   };
 
   // ============================================================
@@ -744,10 +716,9 @@ export default function Home() {
 
               <div className="w-full max-w-3xl">
                 <EraSelector
-                  eras={ERAS}
+                  eras={availableEras}
                   selectedEraId={selectedEraId}
                   onSelectEra={handleEraSelect}
-                  disabledEraIds={disabledEraIds}
                 />
               </div>
 
@@ -834,9 +805,9 @@ export default function Home() {
             NORMAL PAGE SECTIONS
         ======================================================== */}
 
-        <WelcomeSection />
-
         <AboutSection />
+
+        <FoundersSection />
 
         <FAQSection />
       </main>

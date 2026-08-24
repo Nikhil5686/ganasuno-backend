@@ -14,7 +14,7 @@ import {
   type EraInteractionConfig,
 } from "@/data/eras";
 
-import type { EraId, Song } from "@/types/music";
+import type { LanguageEraId } from "@/types/music";
 
 export {
   ERAS,
@@ -58,7 +58,7 @@ export function storeSelectedEraId(eraId: string): void {
   }
 }
 
-export function getInitialEraId(): EraId {
+export function getInitialEraId(): LanguageEraId {
   const stored = getStoredEraId();
 
   if (stored && isValidEraId(stored)) {

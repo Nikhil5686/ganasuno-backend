@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { EraId } from "@/types/music";
+import type { LanguageEraId } from "@/types/music";
 import { getDefaultEra, getEraById } from "@/data/eras";
 
 /**
@@ -11,19 +11,20 @@ export type PlayerThemeConfig = {
   accentColor: string;
   glassStyle?: CSSProperties;
   ambientSound?: string | null;
-  era?: EraId;
+  era?: LanguageEraId;
 };
 
 function resolveGlassStyle(
-  glassStyle: string | CSSProperties | undefined
+  glassStyle: string | CSSProperties | undefined,
 ): CSSProperties | undefined {
   if (!glassStyle || typeof glassStyle === "string") {
     return undefined;
   }
+
   return glassStyle;
 }
 
-function eraToPlayerTheme(eraId: EraId): PlayerThemeConfig {
+function eraToPlayerTheme(eraId: LanguageEraId): PlayerThemeConfig {
   const era = getEraById(eraId) ?? getDefaultEra();
 
   return {
@@ -38,9 +39,9 @@ function eraToPlayerTheme(eraId: EraId): PlayerThemeConfig {
 }
 
 export const DEFAULT_PLAYER_THEME: PlayerThemeConfig = eraToPlayerTheme(
-  getDefaultEra().id
+  getDefaultEra().id,
 );
 
-export function getPlayerThemeForEra(eraId: EraId): PlayerThemeConfig {
+export function getPlayerThemeForEra(eraId: LanguageEraId): PlayerThemeConfig {
   return eraToPlayerTheme(eraId);
 }
