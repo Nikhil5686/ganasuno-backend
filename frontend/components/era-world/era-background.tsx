@@ -20,6 +20,10 @@ const VIDEO_BACKGROUNDS: Record<string, string> = {
   "2000s": "/eras/2000s.mp4",
   "2010s": "/eras/2010s.mp4",
   "2020s": "/eras/2020s.mp4",
+
+  // Bhojpuri
+  old: "/eras/bhojpuri-old.mp4",
+  new: "/eras/bhojpuri-new.mp4",
 };
 
 export default function EraBackground({
