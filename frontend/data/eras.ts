@@ -759,6 +759,136 @@ export const ERAS: EraConfig[] = [
       action: "explore-gujarati",
     },
   },
+
+  // Punjabi Old
+  {
+    id: "old",
+    language: "Punjabi",
+    title: "Old",
+    description: "Classic Punjabi songs, folk melodies, and timeless memories",
+    default: false,
+
+    theme: {
+      accentColor: "#e8a54b",
+      glassStyle: {
+        background: "rgba(36,24,14,0.52)",
+        borderColor: "rgba(232,165,75,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(80,45,20,0.32) 0%, rgba(20,12,8,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/1990s/background.png",
+      scene:
+        "Classic Punjabi music room with vintage radio, cassette player, wooden furniture and warm nostalgic lights",
+      worldLabel: "Punjabi Old Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Punjabi Radio Uncle",
+      characterIcon: "📻",
+
+      quotes: {
+        primary: "ਪੁਰਾਣੇ ਪੰਜਾਬੀ ਗੀਤਾਂ ਵਿੱਚ ਮਿੱਟੀ ਦੀ ਆਪਣੀ ਹੀ ਖੁਸ਼ਬੂ ਸੀ...",
+        alternates: [
+          "ਪੁਰਾਣੇ ਗੀਤ ਸੁਣਦੇ ਹੀ ਪੁਰਾਣੀਆਂ ਯਾਦਾਂ ਆਪਣੇ ਆਪ ਵਾਪਸ ਆ ਜਾਂਦੀਆਂ ਨੇ।",
+          "ਰੇਡੀਓ, ਕੈਸੇਟ ਤੇ ਪੰਜਾਬੀ ਲੋਕ-ਸੰਗੀਤ ਦਾ ਉਹ ਦੌਰ ਹੀ ਵੱਖਰਾ ਸੀ।",
+          "ਕੁਝ ਧੁਨਾਂ ਪੁਰਾਣੀਆਂ ਹੁੰਦੀਆਂ ਨੇ, ਪਰ ਉਹਨਾਂ ਦੀਆਂ ਯਾਦਾਂ ਕਦੇ ਪੁਰਾਣੀਆਂ ਨਹੀਂ ਹੁੰਦੀਆਂ।",
+        ],
+      },
+
+      objects: [
+        {
+          name: "radio",
+          label: "Tune Radio",
+          action: "tune",
+        },
+        {
+          name: "cassette",
+          label: "Play Cassette",
+          action: "rewind",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📻 Tune Punjabi Radio",
+      action: "toggle-radio",
+    },
+  },
+
+  // Punjabi New
+  {
+    id: "new",
+    language: "Punjabi",
+    title: "New",
+    description: "Modern Punjabi hits and contemporary favorites",
+    default: false,
+
+    theme: {
+      accentColor: "#38bdf8",
+      glassStyle: {
+        background: "rgba(18,28,35,0.52)",
+        borderColor: "rgba(56,189,248,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(20,60,80,0.28) 0%, rgba(5,12,18,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/2020s.png",
+      scene:
+        "Modern Punjabi music world with digital playlists, headphones, neon lights and contemporary Punjabi culture",
+      worldLabel: "Punjabi New Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Punjabi DJ",
+      characterIcon: "🎧",
+
+      quotes: {
+        primary: "ਨਵੀਆਂ ਬੀਟਾਂ, ਨਵੀਂ ਧੁਨ... ਪਰ ਪੰਜਾਬੀ ਅੰਦਾਜ਼ ਉਹੀ।",
+        alternates: [
+          "ਨਵੀਂ generation, ਨਵੀਆਂ ਧੁਨਾਂ ਤੇ ਉਹੀ ਪੰਜਾਬੀ vibe।",
+          "ਅੱਜ ਦੇ ਗੀਤਾਂ ਵਿੱਚ ਪੰਜਾਬੀ ਰੰਗ ਤੇ modern sound ਦੋਵੇਂ ਮਿਲਦੇ ਨੇ।",
+          "ਪੰਜਾਬੀ ਮਿਊਜ਼ਿਕ ਦਾ ਨਵਾਂ ਦੌਰ, ਨਵੀਆਂ ਆਵਾਜ਼ਾਂ ਤੇ ਨਵੀਆਂ ਯਾਦਾਂ।",
+        ],
+      },
+
+      objects: [
+        {
+          name: "phone",
+          label: "Discover Music",
+          action: "discover",
+        },
+        {
+          name: "headphones",
+          label: "Listen",
+          action: "listen",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Explore Punjabi",
+      action: "explore-punjabi",
+    },
+  },
 ];
 
 export const DEFAULT_ERA_ID: LanguageEraId =
