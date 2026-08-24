@@ -629,6 +629,136 @@ export const ERAS: EraConfig[] = [
       action: "explore-haryanvi",
     },
   },
+  // Gujarati Old
+  {
+    id: "old",
+    language: "Gujarati",
+    title: "Old",
+    description: "Classic Gujarati songs, folk melodies, and timeless memories",
+    default: false,
+
+    theme: {
+      accentColor: "#d4a574",
+      glassStyle: {
+        background: "rgba(36,24,14,0.52)",
+        borderColor: "rgba(212,165,116,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(80,45,20,0.32) 0%, rgba(20,12,8,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/1990s/background.png",
+      scene:
+        "Classic Gujarati music room with a vintage radio, cassette player, wooden furniture and warm nostalgic lights",
+      worldLabel: "Gujarati Old Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Gujarati Radio Uncle",
+      characterIcon: "📻",
+
+      quotes: {
+        primary: "જૂના ગુજરાતી ગીતોમાં એક અલગ જ માટીની સુગંધ અને યાદો હતી...",
+        alternates: [
+          "કેટલાક ગીતો જૂના થાય છે, પરંતુ તેમની યાદો ક્યારેય જૂની થતી નથી.",
+          "રેડિયો, કેસેટ અને ગુજરાતી લોકસંગીતનો એ જમાનાનો અલગ જ આનંદ હતો.",
+          "જૂની ધૂન વાગે એટલે જૂની યાદો આપોઆપ પાછી આવી જાય.",
+        ],
+      },
+
+      objects: [
+        {
+          name: "radio",
+          label: "Tune Radio",
+          action: "tune",
+        },
+        {
+          name: "cassette",
+          label: "Play Cassette",
+          action: "rewind",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "📻 Tune Gujarati Radio",
+      action: "toggle-radio",
+    },
+  },
+
+  // Gujarati New
+  {
+    id: "new",
+    language: "Gujarati",
+    title: "New",
+    description:
+      "Modern Gujarati hits, folk-pop, Garba, and contemporary favorites",
+    default: false,
+
+    theme: {
+      accentColor: "#fb7185",
+      glassStyle: {
+        background: "rgba(35,18,24,0.52)",
+        borderColor: "rgba(251,113,133,0.28)",
+        backdropFilter: "blur(20px) saturate(120%)",
+        WebkitBackdropFilter: "blur(20px) saturate(120%)",
+      },
+      backgroundStyle: {
+        background:
+          "linear-gradient(180deg, rgba(90,25,40,0.28) 0%, rgba(20,8,12,0.58) 100%)",
+      },
+    },
+
+    world: {
+      background: "/eras/2020s.png",
+      scene:
+        "Modern Gujarati music world with digital playlists, headphones, colorful lights and contemporary Gujarati culture",
+      worldLabel: "Gujarati New Era",
+      ambientSound: EMPTY_AMBIENT,
+
+      character: "Gujarati DJ",
+      characterIcon: "🎧",
+
+      quotes: {
+        primary: "નવી બીટ્સ, નવી ધૂન... પણ ગુજરાતી મ્યુઝિકનો અંદાજ એ જ.",
+        alternates: [
+          "આજના ગુજરાતી ગીતોમાં પરંપરા અને modern vibe બંને સાથે મળે છે.",
+          "નવી generation, નવી ધૂન અને એ જ ગુજરાતી રંગ.",
+          "ગુજરાતી મ્યુઝિકનો નવો યુગ શરૂ થઈ ગયો છે.",
+        ],
+      },
+
+      objects: [
+        {
+          name: "phone",
+          label: "Discover Music",
+          action: "discover",
+        },
+        {
+          name: "headphones",
+          label: "Listen",
+          action: "listen",
+        },
+      ],
+    },
+
+    music: {
+      songs: [],
+    },
+
+    interaction: {
+      button: "🎧 Explore Gujarati",
+      action: "explore-gujarati",
+    },
+  },
 ];
 
 export const DEFAULT_ERA_ID: LanguageEraId =

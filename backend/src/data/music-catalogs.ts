@@ -59,15 +59,28 @@ export const MUSIC_CATALOGS: MusicCatalog[] = [
   },
 
   // Haryanvi
-  
+
   {
-  language: "Haryanvi",
-  eraId: "old",
-  playlistId: "PLB45HKYZKUqU",
-},
-{
-  language: "Haryanvi",
-  eraId: "new",
-  playlistId: "PLavtZT2SgOqE",
-},
+    language: "Haryanvi",
+    eraId: "old",
+    playlistId: "PLB45HKYZKUqU",
+  },
+  {
+    language: "Haryanvi",
+    eraId: "new",
+    playlistId: "PLavtZT2SgOqE",
+  },
+
+  // GUJARATI
+
+  {
+    language: "Gujarati",
+    eraId: "old",
+    playlistId: "PLKtkwA2ZzcVA",
+  },
+  {
+    language: "Gujarati",
+    eraId: "new",
+    playlistId: "PLYWvXo0_rhX0",
+  },
 ];

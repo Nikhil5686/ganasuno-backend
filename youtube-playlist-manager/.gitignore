@@ -1,3 +1,5 @@
 .env
 token.json
 node_modules/
+youtube-playlist-manager/token*.json
+youtube-playlist-manager/playlist-state*.json

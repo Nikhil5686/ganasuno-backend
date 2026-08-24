@@ -250,6 +250,7 @@ export default function Home() {
         }
 
         const songs = response.songs ?? [];
+        
         const shuffledSongs = shuffleSongs(songs);
 
         setEraQueue(shuffledSongs);
