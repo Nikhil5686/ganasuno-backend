@@ -83,4 +83,20 @@ export const MUSIC_CATALOGS: MusicCatalog[] = [
     eraId: "new",
     playlistId: "PLYWvXo0_rhX0",
   },
+
+  // =========================
+  // PUNJABI
+  // =========================
+
+  {
+    language: "Punjabi",
+    eraId: "old",
+    playlistId: "PLIv91AJQiHbg",
+  },
+
+  {
+    language: "Punjabi",
+    eraId: "new",
+    playlistId: "PLfUo87ZwllT4",
+  },
 ];
