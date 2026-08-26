@@ -12,6 +12,7 @@ class YouTubeEngine {
 
   private pendingVideoId: string | null = null;
   private pendingStartTime = 0;
+  private pendingAutoplay = false;
 
   public state: YouTubeState = {
     isPlaying: false,
@@ -22,33 +23,236 @@ class YouTubeEngine {
 
   private listeners = new Set<() => void>();
 
-  /**
-   * Attach the actual YouTube player.
-   *
-   * If load() was called before the player was ready,
-   * the pending video will automatically be loaded here
-   * with its requested start time.
-   */
   setPlayer(player: any) {
     this.player = player;
+
     this.setupMediaSession();
 
     if (this.pendingVideoId) {
       const videoId = this.pendingVideoId;
       const startTime = this.pendingStartTime;
+      const shouldAutoplay = this.pendingAutoplay;
 
       this.pendingVideoId = null;
       this.pendingStartTime = 0;
+      this.pendingAutoplay = false;
 
-      this.player.loadVideoById(videoId, startTime);
-
-      this.state.currentTime = startTime;
-      this.state.isPlaying = false;
-
-      this.notify();
+      this.loadIntoPlayer(videoId, startTime, shouldAutoplay);
     }
 
     this.notify();
+  }
+
+  clearPlayer() {
+    this.player = null;
+
+    this.state = {
+      ...this.state,
+      isPlaying: false,
+      currentTime: 0,
+      duration: 0,
+    };
+
+    this.notify();
+  }
+
+  private loadIntoPlayer(videoId: string, startTime = 0, autoplay = false) {
+    if (!this.player || !videoId) {
+      return;
+    }
+
+    const safeStartTime = Math.max(0, startTime);
+
+    try {
+      if (autoplay && typeof this.player.loadVideoById === "function") {
+        this.player.loadVideoById({
+          videoId,
+          startSeconds: safeStartTime,
+        });
+      } else if (typeof this.player.cueVideoById === "function") {
+        this.player.cueVideoById({
+          videoId,
+          startSeconds: safeStartTime,
+        });
+      }
+
+      this.state = {
+        ...this.state,
+        isPlaying: false,
+        currentTime: safeStartTime,
+        duration: 0,
+      };
+
+      this.notify();
+
+      if (autoplay && typeof this.player.loadVideoById !== "function") {
+        setTimeout(() => {
+          this.play();
+        }, 100);
+      }
+    } catch (error) {
+      console.error("Failed to load YouTube video:", error);
+    }
+  }
+
+  load(videoId: string, startTime = 0, autoplay = false) {
+    if (!videoId) {
+      return;
+    }
+
+    const safeStartTime = Math.max(0, startTime);
+
+    if (!this.player) {
+      this.pendingVideoId = videoId;
+      this.pendingStartTime = safeStartTime;
+      this.pendingAutoplay = autoplay;
+
+      this.state = {
+        ...this.state,
+        isPlaying: false,
+        currentTime: safeStartTime,
+        duration: 0,
+      };
+
+      this.notify();
+      return;
+    }
+
+    this.loadIntoPlayer(videoId, safeStartTime, autoplay);
+  }
+
+  updateTime() {
+    if (!this.player) {
+      return;
+    }
+
+    try {
+      const currentTime =
+        this.player.getCurrentTime?.() ?? this.state.currentTime ?? 0;
+
+      const duration = this.player.getDuration?.() ?? this.state.duration ?? 0;
+
+      this.state.currentTime = Math.max(0, currentTime);
+      this.state.duration = Math.max(0, duration);
+
+      this.notify();
+    } catch {
+      // Ignore transient YouTube API errors.
+    }
+  }
+
+  setPlaying(isPlaying: boolean) {
+    this.state.isPlaying = isPlaying;
+    this.notify();
+  }
+
+  handleEnded() {
+    this.state.isPlaying = false;
+    this.updateTime();
+    this.notify();
+  }
+
+  play() {
+    if (!this.player) {
+      return;
+    }
+
+    try {
+      this.player.playVideo?.();
+
+      this.state.isPlaying = true;
+      this.notify();
+    } catch (error) {
+      console.warn("Unable to start YouTube playback:", error);
+    }
+  }
+
+  pause() {
+    if (!this.player) {
+      return;
+    }
+
+    try {
+      this.player.pauseVideo?.();
+
+      this.state.isPlaying = false;
+      this.notify();
+    } catch (error) {
+      console.warn("Unable to pause YouTube playback:", error);
+    }
+  }
+
+  togglePlay() {
+    if (!this.player) {
+      return;
+    }
+
+    const playerState = this.player.getPlayerState?.();
+
+    if (playerState === 1) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
+  seek(seconds: number) {
+    if (!this.player) {
+      return;
+    }
+
+    const safeSeconds = Math.max(0, seconds);
+
+    try {
+      this.player.seekTo?.(safeSeconds, true);
+
+      this.state.currentTime = safeSeconds;
+      this.notify();
+    } catch (error) {
+      console.warn("Unable to seek YouTube video:", error);
+    }
+  }
+
+  mute() {
+    if (!this.player) {
+      return;
+    }
+
+    try {
+      this.player.mute?.();
+
+      this.state.muted = true;
+      this.notify();
+    } catch {
+      // Ignore.
+    }
+  }
+
+  unMute() {
+    if (!this.player) {
+      return;
+    }
+
+    try {
+      this.player.unMute?.();
+
+      this.state.muted = false;
+      this.notify();
+    } catch {
+      // Ignore.
+    }
+  }
+
+  toggleMute() {
+    if (!this.player) {
+      return;
+    }
+
+    if (this.state.muted) {
+      this.unMute();
+    } else {
+      this.mute();
+    }
   }
 
   setMediaMetadata(
@@ -74,150 +278,6 @@ class YouTubeEngine {
     });
   }
 
-  /**
-   * Remove the player when the component is unmounted.
-   */
-  clearPlayer() {
-    this.player = null;
-  }
-
-  /**
-   * Load a YouTube video.
-   *
-   * startTime is in seconds.
-   *
-   * Example:
-   *
-   * load("abc123", 8)
-   *
-   * starts the video at 00:08.
-   */
-  load(videoId: string, startTime = 0) {
-    if (!videoId) return;
-
-    const safeStartTime = Math.max(0, startTime);
-
-    // Player isn't ready yet.
-    if (!this.player) {
-      this.pendingVideoId = videoId;
-      this.pendingStartTime = safeStartTime;
-
-      this.state = {
-        isPlaying: false,
-        currentTime: safeStartTime,
-        duration: 0,
-        muted: this.state.muted,
-      };
-
-      this.notify();
-
-      return;
-    }
-
-    // Player is ready.
-    this.player.loadVideoById(videoId, safeStartTime);
-
-    this.state = {
-      isPlaying: false,
-      currentTime: safeStartTime,
-      duration: 0,
-      muted: this.state.muted,
-    };
-
-    this.notify();
-  }
-
-  updateTime() {
-    if (!this.player) return;
-
-    const currentTime =
-      this.player.getCurrentTime?.() ?? this.state.currentTime ?? 0;
-
-    const duration = this.player.getDuration?.() ?? this.state.duration ?? 0;
-
-    this.state.currentTime = Math.max(0, currentTime);
-    this.state.duration = Math.max(0, duration);
-
-    this.notify();
-  }
-
-  public setPlaying(isPlaying: boolean) {
-    this.state.isPlaying = isPlaying;
-    this.notify();
-  }
-
-  play() {
-    if (!this.player) return;
-
-    this.player.playVideo?.();
-
-    this.state.isPlaying = true;
-    this.notify();
-  }
-
-  pause() {
-    if (!this.player) return;
-
-    this.player.pauseVideo?.();
-
-    this.state.isPlaying = false;
-    this.notify();
-  }
-
-  togglePlay() {
-    if (!this.player) return;
-
-    const playerState = this.player.getPlayerState?.();
-
-    if (playerState === 1) {
-      this.pause();
-    } else {
-      this.play();
-    }
-  }
-
-  seek(seconds: number) {
-    if (!this.player) return;
-
-    const safeSeconds = Math.max(0, seconds);
-
-    this.player.seekTo?.(safeSeconds, true);
-
-    this.state.currentTime = safeSeconds;
-
-    this.notify();
-  }
-
-  mute() {
-    if (!this.player) return;
-
-    this.player.mute?.();
-
-    this.state.muted = true;
-
-    this.notify();
-  }
-
-  unMute() {
-    if (!this.player) return;
-
-    this.player.unMute?.();
-
-    this.state.muted = false;
-
-    this.notify();
-  }
-
-  toggleMute() {
-    if (!this.player) return;
-
-    if (this.state.muted) {
-      this.unMute();
-    } else {
-      this.mute();
-    }
-  }
-
   subscribe(fn: () => void) {
     this.listeners.add(fn);
 
@@ -235,21 +295,25 @@ class YouTubeEngine {
       return;
     }
 
-    navigator.mediaSession.setActionHandler("play", () => {
-      this.play();
-    });
+    try {
+      navigator.mediaSession.setActionHandler("play", () => {
+        this.play();
+      });
 
-    navigator.mediaSession.setActionHandler("pause", () => {
-      this.pause();
-    });
+      navigator.mediaSession.setActionHandler("pause", () => {
+        this.pause();
+      });
 
-    navigator.mediaSession.setActionHandler("nexttrack", () => {
-      window.dispatchEvent(new Event("ganasuno-next"));
-    });
+      navigator.mediaSession.setActionHandler("nexttrack", () => {
+        window.dispatchEvent(new Event("ganasuno-next"));
+      });
 
-    navigator.mediaSession.setActionHandler("previoustrack", () => {
-      window.dispatchEvent(new Event("ganasuno-previous"));
-    });
+      navigator.mediaSession.setActionHandler("previoustrack", () => {
+        window.dispatchEvent(new Event("ganasuno-previous"));
+      });
+    } catch {
+      // Some browsers don't support every Media Session action.
+    }
   }
 }
 

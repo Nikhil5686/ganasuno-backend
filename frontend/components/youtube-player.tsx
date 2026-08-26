@@ -37,6 +37,7 @@ declare global {
 
 type YoutubePlayerProps = {
   videoId: string;
+  autoplay?: boolean;
   onReady?: () => void;
   onEnded?: () => void;
 };
@@ -79,15 +80,6 @@ function loadYouTubeApi(): Promise<void> {
   return youtubeApiPromise;
 }
 
-/*
- * YouTube IFrame API error codes:
- *
- * 2   = invalid video ID
- * 5   = HTML5 player error
- * 100 = video not found/private
- * 101 = embedding not allowed
- * 150 = embedding not allowed
- */
 function isUnavailableVideoError(errorCode: number): boolean {
   return (
     errorCode === 2 ||
@@ -100,6 +92,7 @@ function isUnavailableVideoError(errorCode: number): boolean {
 
 export default function YoutubePlayer({
   videoId,
+  autoplay = false,
   onReady,
   onEnded,
 }: YoutubePlayerProps) {
@@ -109,26 +102,34 @@ export default function YoutubePlayer({
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const endedRef = useRef(false);
+  const currentVideoIdRef = useRef(videoId);
 
-  const errorHandledRef = useRef(false);
+  const autoplayRef = useRef(autoplay);
 
   const onEndedRef = useRef(onEnded);
   const onReadyRef = useRef(onReady);
 
+  const endedRef = useRef(false);
+  const errorHandledRef = useRef(false);
+
+  /*
+   * Keep callbacks and current values fresh
+   * without recreating the YouTube iframe.
+   */
   useEffect(() => {
+    currentVideoIdRef.current = videoId;
+    autoplayRef.current = autoplay;
     onEndedRef.current = onEnded;
     onReadyRef.current = onReady;
-  }, [onEnded, onReady]);
+  }, [videoId, autoplay, onEnded, onReady]);
 
+  /*
+   * Create the YouTube player ONLY ONCE.
+   */
   useEffect(() => {
     let cancelled = false;
 
     async function initializePlayer() {
-      if (!videoId) {
-        return;
-      }
-
       await loadYouTubeApi();
 
       if (cancelled) {
@@ -139,22 +140,19 @@ export default function YoutubePlayer({
         return;
       }
 
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-
-      errorHandledRef.current = false;
-      endedRef.current = false;
-
       const player = new window.YT.Player(containerRef.current, {
         width: 1,
         height: 1,
 
-        videoId,
+        /*
+         * Initial video only.
+         * Future videos are loaded using loadVideoById()
+         * on the SAME player instance.
+         */
+        videoId: currentVideoIdRef.current,
 
         playerVars: {
-          autoplay: 1,
+          autoplay: autoplayRef.current ? 1 : 0,
           controls: 0,
           disablekb: 1,
           fs: 0,
@@ -176,13 +174,32 @@ export default function YoutubePlayer({
 
             youtubeEngine.setPlayer(event.target);
 
-            console.log("YouTube player ready:", videoId);
+            console.log("YouTube player ready:", currentVideoIdRef.current);
 
             onReadyRef.current?.();
+
+            /*
+             * Keep updating playback position even when
+             * the page is not visible.
+             */
+            if (intervalRef.current) {
+              clearInterval(intervalRef.current);
+            }
 
             intervalRef.current = setInterval(() => {
               youtubeEngine.updateTime();
             }, 250);
+
+            /*
+             * If autoplay was requested, explicitly start it.
+             */
+            if (autoplayRef.current) {
+              setTimeout(() => {
+                if (!cancelled) {
+                  youtubeEngine.play();
+                }
+              }, 150);
+            }
           },
 
           onStateChange: (event) => {
@@ -190,11 +207,11 @@ export default function YoutubePlayer({
               return;
             }
 
-            const playerState = event.data;
-
             if (!window.YT?.PlayerState) {
               return;
             }
+
+            const playerState = event.data;
 
             if (playerState === window.YT.PlayerState.PLAYING) {
               youtubeEngine.setPlaying(true);
@@ -207,9 +224,16 @@ export default function YoutubePlayer({
 
               endedRef.current = true;
 
-              youtubeEngine.updateTime();
-              youtubeEngine.setPlaying(false);
+              console.log("🎵 YouTube song ended:", currentVideoIdRef.current);
 
+              youtubeEngine.handleEnded();
+
+              /*
+               * React changes the song.
+               *
+               * IMPORTANT:
+               * We do NOT destroy this YouTube player.
+               */
               onEndedRef.current?.();
             }
           },
@@ -221,14 +245,12 @@ export default function YoutubePlayer({
 
             const errorCode = event.data;
 
-            console.warn("YouTube video unavailable:", {
+            console.warn(
+              "YouTube video error:",
               errorCode,
-              videoId,
-            });
+              currentVideoIdRef.current,
+            );
 
-            /*
-             * Prevent duplicate callbacks.
-             */
             if (errorHandledRef.current) {
               return;
             }
@@ -239,19 +261,14 @@ export default function YoutubePlayer({
 
               youtubeEngine.setPlaying(false);
 
-              if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-              }
-
               /*
-               * Give React a moment to process the
-               * failed player before moving to the
-               * next song.
+               * Treat unavailable videos like ended songs.
                */
               setTimeout(() => {
                 if (!cancelled) {
-                  console.warn(`Skipping unavailable YouTube video ${videoId}`);
+                  console.warn(
+                    `Skipping unavailable YouTube video ${currentVideoIdRef.current}`,
+                  );
 
                   onEndedRef.current?.();
                 }
@@ -260,12 +277,7 @@ export default function YoutubePlayer({
               return;
             }
 
-            console.error(
-              "YouTube player error:",
-              errorCode,
-              "videoId:",
-              videoId,
-            );
+            console.error("YouTube player error:", errorCode);
           },
         },
       });
@@ -283,6 +295,10 @@ export default function YoutubePlayer({
         intervalRef.current = null;
       }
 
+      /*
+       * The component is actually being destroyed here,
+       * so now it is safe to destroy the YouTube player.
+       */
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
@@ -297,16 +313,43 @@ export default function YoutubePlayer({
     };
   }, []);
 
+  /*
+   * THIS EFFECT handles song changes.
+   *
+   * The iframe is NOT recreated.
+   */
   useEffect(() => {
-    if (!videoId) {
+    const player = playerRef.current;
+
+    if (!player || !videoId) {
       return;
     }
 
     endedRef.current = false;
     errorHandledRef.current = false;
 
-    youtubeEngine.load(videoId);
-  }, [videoId]);
+    console.log("🔄 Loading next video into existing YouTube player:", videoId);
+
+    try {
+      if (autoplay) {
+        player.loadVideoById({
+          videoId,
+          startSeconds: 0,
+        });
+      } else {
+        player.cueVideoById({
+          videoId,
+          startSeconds: 0,
+        });
+      }
+
+      if (autoplay) {
+        youtubeEngine.setPlaying(true);
+      }
+    } catch (error) {
+      console.error("Failed to load next YouTube video:", error);
+    }
+  }, [videoId, autoplay]);
 
   return (
     <div

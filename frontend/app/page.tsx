@@ -250,7 +250,7 @@ export default function Home() {
         }
 
         const songs = response.songs ?? [];
-        
+
         const shuffledSongs = shuffleSongs(songs);
 
         setEraQueue(shuffledSongs);
@@ -791,6 +791,7 @@ export default function Home() {
                     song={currentSong}
                     eraQueue={eraQueue}
                     hasSongs={eraQueue.length > 0}
+                    isLoading={isLoadingSongs}
                     onPrevious={handlePreviousSong}
                     onNext={handleNextSong}
                     eraArtwork={selectedEra.world.background}

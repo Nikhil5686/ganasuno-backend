@@ -24,6 +24,7 @@ const YoutubePlayer = dynamic(() => import("@/components/youtube-player"), {
 type MusicPlayerProps = {
   song: Song | null;
   hasSongs: boolean;
+  isLoading: boolean;
   onPrevious: () => void;
   onNext: () => void;
   eraArtwork?: string;
@@ -35,6 +36,7 @@ export default function MusicPlayer({
   song,
   eraQueue,
   hasSongs,
+  isLoading,
   onPrevious,
   onNext,
   eraArtwork = "/eras/1990s.png",
@@ -84,6 +86,7 @@ export default function MusicPlayer({
   useEffect(() => {
     if (!song) {
       setYoutubeVideoId(null);
+      youtubeEngine.clearPlayer();
       return;
     }
 
@@ -92,10 +95,22 @@ export default function MusicPlayer({
 
       setYoutubeVideoId(song.providerId);
 
-      youtubeEngine.load(song.providerId, song.startTime ?? 0);
+      youtubeEngine.load(song.providerId, song.startTime ?? 0, true);
+
+      setTimeout(() => {
+        youtubeEngine.play();
+      }, 150);
+
+      youtubeEngine.setMediaMetadata(
+        song.title,
+        song.artist ?? "GanaSuno",
+        song.thumbnailUrl ?? "/icons/icon-512.png",
+      );
     } else {
       console.warn("No playable source found:", song);
+
       setYoutubeVideoId(null);
+      youtubeEngine.clearPlayer();
     }
   }, [song]);
 
@@ -173,12 +188,26 @@ export default function MusicPlayer({
 
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
         <div>
+          {isLoading && (
+            <div className="mb-1 flex items-center gap-1.5 text-[9px] text-stone-400">
+              <span className="h-2.5 w-2.5 animate-spin rounded-full border border-stone-400 border-t-transparent" />
+              Loading
+            </div>
+          )}
           <h2 className="truncate text-xs font-semibold tracking-wide text-stone-100">
-            {song ? song.title : "No Song Selected"}
+            {isLoading
+              ? "Please wait..."
+              : song
+                ? song.title
+                : "No songs available"}
           </h2>
 
           <p className="truncate text-[10px] text-stone-400">
-            {song ? song.artist : "Select an era"}
+            {isLoading
+              ? "Songs are loading..."
+              : song
+                ? song.artist
+                : "Try selecting another era"}
           </p>
         </div>
 
@@ -218,7 +247,7 @@ export default function MusicPlayer({
             HIDDEN YOUTUBE PLAYER
         ======================================================== */}
         {youtubeVideoId && (
-          <YoutubePlayer videoId={youtubeVideoId} onEnded={onNext} />
+          <YoutubePlayer videoId={youtubeVideoId} autoplay onEnded={onNext} />
         )}
 
         {/* ========================================================
