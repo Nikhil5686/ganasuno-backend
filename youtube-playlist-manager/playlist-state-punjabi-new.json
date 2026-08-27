@@ -1,8 +1,509 @@
 {
   "playlistId": "PLfUo87ZwllT4",
   "playlistTitle": "GanaSuno — Punjabi New",
-  "nextSongIndex": 0,
-  "addedSongs": [],
+  "nextSongIndex": 50,
+  "addedSongs": [
+    {
+      "index": 0,
+      "title": "Do You Know",
+      "artist": "Diljit Dosanjh",
+      "videoId": "P-DhwN87JDY",
+      "youtubeTitle": "Diljit Dosanjh - Do You Know",
+      "channel": "FAMOUS STUDIOS",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 1,
+      "title": "Proper Patola",
+      "artist": "Diljit Dosanjh",
+      "videoId": "GVhmynWOPoM",
+      "youtubeTitle": "Proper Patola - Official Video | Diljit Dosanjh | Badshah",
+      "channel": "SonyMusicIndiaVEVO",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 2,
+      "title": "Patiala Peg",
+      "artist": "Diljit Dosanjh",
+      "videoId": "slUoxZedJwE",
+      "youtubeTitle": "PATIALA PEG - DILJIT DOSANJH (HD VIdeo) | Diljott | Latest Punjabi Songs 2024 | Punjabi Songs 2024",
+      "channel": "PB 65",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 3,
+      "title": "5 Taara",
+      "artist": "Diljit Dosanjh",
+      "videoId": "MsTW5cyWKj4",
+      "youtubeTitle": "5 Taara (Full Song) - Diljit Dosanjh | Latest Punjabi Songs 2015 | Speed Records",
+      "channel": "Speed Records",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 4,
+      "title": "Born To Shine",
+      "artist": "Diljit Dosanjh",
+      "videoId": "dCmp56tSSmA",
+      "youtubeTitle": "Diljit Dosanjh: Born To Shine (Official Music Video) G.O.A.T",
+      "channel": "Diljit Dosanjh",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 5,
+      "title": "Lover",
+      "artist": "Diljit Dosanjh",
+      "videoId": "mH_LFkWxpI0",
+      "youtubeTitle": "Diljit Dosanjh: LOVER (Official Music Video) Intense | Raj Ranjodh | MoonChild Era",
+      "channel": "Diljit Dosanjh",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 6,
+      "title": "GOAT",
+      "artist": "Diljit Dosanjh",
+      "videoId": "cl0a3i2wFcc",
+      "youtubeTitle": "Diljit Dosanjh - G.O.A.T. (Official Music Video)",
+      "channel": "Diljit Dosanjh",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 7,
+      "title": "Clash",
+      "artist": "Diljit Dosanjh",
+      "videoId": "KX06ksuS6Xo",
+      "youtubeTitle": "Diljit Dosanjh: CLASH (Official) Music Video | G.O.A.T.",
+      "channel": "Diljit Dosanjh",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 8,
+      "title": "Vibe",
+      "artist": "Diljit Dosanjh",
+      "videoId": "fyBzPE6w6-k",
+      "youtubeTitle": "Diljit Dosanjh: VIBE (Official Video) Intense | Raj Ranjodh | MoonChild Era",
+      "channel": "Diljit Dosanjh",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 9,
+      "title": "So High",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "GgmFC8y8q3k",
+      "youtubeTitle": "So High | Official Music Video | Sidhu Moose Wala ft. BYG BYRD | Humble Music",
+      "channel": "Humble Music",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 10,
+      "title": "Just Listen",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "rMQ_TUEwQEs",
+      "youtubeTitle": "Just Listen | Official Music Video | Sidhu Moose Wala ft. Sunny Malton | BYG BYRD | Humble Music",
+      "channel": "Humble Music",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 11,
+      "title": "Legend",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "YZAFd9o3RYQ",
+      "youtubeTitle": "LEGEND - SIDHU MOOSE WALA | The Kidd | Gold Media | Latest Punjabi Songs 2020",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 12,
+      "title": "The Last Ride",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "6xoB4ZiKKn0",
+      "youtubeTitle": "THE LAST RIDE - Offical Video |  Sidhu Moose Wala | Wazir Patar",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 13,
+      "title": "295",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "n_FCrCQ6-bA",
+      "youtubeTitle": "295 (Official Audio) | Sidhu Moose Wala | The Kidd | Moosetape",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 14,
+      "title": "Levels",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "tpFljbJxZiw",
+      "youtubeTitle": "LEVELS - Official Video | Sidhu Moose Wala ft Sunny Malton | The Kidd",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 15,
+      "title": "Same Beef",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "qk2WMmiiVFE",
+      "youtubeTitle": "Same Beef Song | BOHEMIA | Ft. Sidhu Moose Wala | Byg Byrd | Punjabi Song | Rap Song | Music Video",
+      "channel": "YRF",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 16,
+      "title": "Bambiha Bole",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "hpVNMjpjiJc",
+      "youtubeTitle": "BAMBIHA BOLE (Official Video) Amrit Maan | Sidhu Moose Wala | Tru Makers | Latest Punjabi Songs 2020",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 17,
+      "title": "Never Fold",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "-CJ3_0vyzNs",
+      "youtubeTitle": "NEVER FOLD : Sidhu Moose Wala | Sunny Malton | SOE | Official Visual Video | New Song 2022",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 18,
+      "title": "Devil",
+      "artist": "Sidhu Moose Wala",
+      "videoId": "C4mBfkNVnEk",
+      "youtubeTitle": "DEVIL Lyrical Video | PBX 1 | Sidhu Moose Wala | Byg Byrd |  Latest Punjabi Songs 2018",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 19,
+      "title": "Don't Look",
+      "artist": "Karan Aujla",
+      "videoId": "6Pd-3nvYDRk",
+      "youtubeTitle": "Don&#39;t Look (4K Video) Karan Aujla | Rupan Bal | Jay Trak | Latest Punjabi Songs 2019",
+      "channel": "Rehaan Records",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 20,
+      "title": "Chithiyaan",
+      "artist": "Karan Aujla",
+      "videoId": "M4DwGuTINsc",
+      "youtubeTitle": "KARAN AUJLA | Chithiyaan (Official Video) | Desi Crew | Rupan Bal | Latest Punjabi Songs 2020",
+      "channel": "Speed Records",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 21,
+      "title": "Mexico",
+      "artist": "Karan Aujla",
+      "videoId": "2sAzb3kraoQ",
+      "youtubeTitle": "Mexico Koka | Karan Aujla (Full Video) Mahira Sharma Latest Punjabi Song 2021",
+      "channel": "Single Track Studio",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 22,
+      "title": "Players",
+      "artist": "Karan Aujla",
+      "videoId": "CeFQO9MQNqs",
+      "youtubeTitle": "Badshah X Karan Aujla - Players (Official Video) | 3:00 AM Sessions",
+      "channel": "Badshah",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 23,
+      "title": "Admirin' You",
+      "artist": "Karan Aujla",
+      "videoId": "k85UB5b6pJU",
+      "youtubeTitle": "Admirin&#39; You (Official Video) Karan Aujla | Ikky | Making Memories | Latest Punjabi Songs 2023",
+      "channel": "Karan Aujla",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 24,
+      "title": "Softly",
+      "artist": "Karan Aujla",
+      "videoId": "cWMxCE2HTag",
+      "youtubeTitle": "SOFTLY (Official Music Video) KARAN AUJLA | IKKY | LATEST PUNJABI SONGS 2023",
+      "channel": "Karan Aujla",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 25,
+      "title": "Tauba Tauba",
+      "artist": "Karan Aujla",
+      "videoId": "LK7-_dgAVQE",
+      "youtubeTitle": "Tauba Tauba | Bad Newz | Vicky Kaushal | Triptii Dimri | Karan Aujla",
+      "channel": "Saregama Music",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 26,
+      "title": "White Brown Black",
+      "artist": "Karan Aujla",
+      "videoId": "BtQp2U6hJII",
+      "youtubeTitle": "White Brown Black - Avvy Sra | Karan Aujla | Jaani | Amanninder Singh | Desi Melodies",
+      "channel": "DM - Desi Melodies",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 27,
+      "title": "On Top",
+      "artist": "Karan Aujla",
+      "videoId": "aFWDOFg7X2A",
+      "youtubeTitle": "On Top (Full Video) Karan Aujla | Yeah Proof | New Punjabi Songs 2022",
+      "channel": "Karan Aujla",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 28,
+      "title": "Winning Speech",
+      "artist": "Karan Aujla",
+      "videoId": "iCGdF4YMvFY",
+      "youtubeTitle": "Winning Speech - Karan Aujla (Lyrics/English Meaning)",
+      "channel": "Punjabi Bars",
+      "matchScore": 36,
+      "added": true
+    },
+    {
+      "index": 29,
+      "title": "Excuses",
+      "artist": "AP Dhillon",
+      "videoId": "vX2cDW8LUWk",
+      "youtubeTitle": "Excuses (Official Video) | AP Dhillon | Gurinder Gill | Intense",
+      "channel": "Intense",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 30,
+      "title": "Brown Munde",
+      "artist": "AP Dhillon",
+      "videoId": "VNs_cCtdbPc",
+      "youtubeTitle": "BROWN MUNDE - AP DHILLON | GURINDER GILL | SHINDA KAHLON (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 31,
+      "title": "Insane",
+      "artist": "AP Dhillon",
+      "videoId": "cqP8I5aaud8",
+      "youtubeTitle": "INSANE - AP DHILLON | GURINDER GILL | SHINDA KAHLON (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 32,
+      "title": "Summer High",
+      "artist": "AP Dhillon",
+      "videoId": "nqUN530Rgtw",
+      "youtubeTitle": "SUMMER HIGH - AP DHILLON (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 33,
+      "title": "With You",
+      "artist": "AP Dhillon",
+      "videoId": "mZQH8CPQ-wo",
+      "youtubeTitle": "With You - AP Dhillon (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 34,
+      "title": "Toxic",
+      "artist": "AP Dhillon",
+      "videoId": "7v0_uipNGao",
+      "youtubeTitle": "TOXIC - AP DHILLON | INTENSE (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 35,
+      "title": "Wo Noor",
+      "artist": "AP Dhillon",
+      "videoId": "HrcjFEK58ik",
+      "youtubeTitle": "WO NOOR - AP DHILLON (Official Audio)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 36,
+      "title": "Foreigns",
+      "artist": "AP Dhillon",
+      "videoId": "jWz5on5N14E",
+      "youtubeTitle": "FOREIGNS - AP DHILLON | GURINDER GILL | MONEY MUSIK (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 37,
+      "title": "Desires",
+      "artist": "AP Dhillon",
+      "videoId": "3ONzh3tf884",
+      "youtubeTitle": "DESIRES - AP DHILLON | GURINDER GILL (Official Audio)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 38,
+      "title": "True Stories",
+      "artist": "AP Dhillon",
+      "videoId": "-wFTG_f-W4c",
+      "youtubeTitle": "True Stories -  AP Dhillon | Shinda Kahlon (Official Music Video)",
+      "channel": "APDHILLON",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 39,
+      "title": "Lahore",
+      "artist": "Guru Randhawa",
+      "videoId": "dZ0fwJojhrs",
+      "youtubeTitle": "Guru Randhawa: Lahore (Official Video) Bhushan Kumar | Vee | DirectorGifty | T-Series",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 40,
+      "title": "High Rated Gabru",
+      "artist": "Guru Randhawa",
+      "videoId": "hjWf8A0YNSE",
+      "youtubeTitle": "Guru Randhawa: High Rated Gabru Official Song | DirectorGifty | Bhushan Kumar | T-Series",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 41,
+      "title": "Suit Suit",
+      "artist": "Guru Randhawa",
+      "videoId": "uQ763VvqiEM",
+      "youtubeTitle": "Suit Full Video Song | Guru Randhawa Feat. Arjun | T-Series",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 42,
+      "title": "Ishare Tere",
+      "artist": "Guru Randhawa",
+      "videoId": "8nGFWWJLHio",
+      "youtubeTitle": "ISHARE TERE Song | Guru Randhawa, Dhvani Bhanushali | DirectorGifty | Bhushan Kumar",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 43,
+      "title": "Ban Ja Tu Meri Rani",
+      "artist": "Guru Randhawa",
+      "videoId": "hlvbDjksdCg",
+      "youtubeTitle": "Guru Randhawa: Ban Ja Rani Video Song With Lyrics | Tumhari Sulu | Vidya Balan Manav Kaul",
+      "channel": "T-Series",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 44,
+      "title": "Bambiha Bole",
+      "artist": "Amrit Maan",
+      "videoId": "hpVNMjpjiJc",
+      "youtubeTitle": "BAMBIHA BOLE (Official Video) Amrit Maan | Sidhu Moose Wala | Tru Makers | Latest Punjabi Songs 2020",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": false
+    },
+    {
+      "index": 45,
+      "title": "Trending Nakhra",
+      "artist": "Amrit Maan",
+      "videoId": "nqzIQh2D_Es",
+      "youtubeTitle": "Trending Nakhra (Official Video) : Amrit Maan ft. Ginni Kapoor | Intense | Punjabi Song",
+      "channel": "Bamb Beats",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 46,
+      "title": "Old Skool",
+      "artist": "Prem Dhillon",
+      "videoId": "hBlO1i_WTiY",
+      "youtubeTitle": "OLD SKOOL (Full Video) Prem Dhillon ft Sidhu Moose Wala | The Kidd | Nseeb | Rahul Chahal |GoldMedia",
+      "channel": "Sidhu Moose Wala",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 47,
+      "title": "We Rollin",
+      "artist": "Shubh",
+      "videoId": "hV8EGTjzD2s",
+      "youtubeTitle": "We Rollin (Official Video) - Shubh | Rubbal GTR",
+      "channel": "SHUBH",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 48,
+      "title": "Elevated",
+      "artist": "Shubh",
+      "videoId": "I1nX5EuvwzE",
+      "youtubeTitle": "Shubh - Elevated (Official Music Video)",
+      "channel": "SHUBH",
+      "matchScore": 0,
+      "added": true
+    },
+    {
+      "index": 49,
+      "title": "Naina",
+      "artist": "Shubh",
+      "videoId": "oI9CGEWSQOA",
+      "youtubeTitle": "Nain Tere Chain Mere - Shubh (Official Video) New Punjabi Song 2024 | Latest Punjabi Song 2024",
+      "channel": "Treksup music  ",
+      "matchScore": 0,
+      "added": true
+    }
+  ],
   "skippedSongs": [],
-  "completed": false
+  "completed": true
 }

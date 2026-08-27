@@ -99,4 +99,18 @@ export const MUSIC_CATALOGS: MusicCatalog[] = [
     eraId: "new",
     playlistId: "PLfUo87ZwllT4",
   },
+
+  // =========================
+  // ENGLISH
+  // =========================
+  {
+    language: "English",
+    eraId: "old",
+    playlistId: "PLMT3zN-Us5L4",
+  },
+  {
+    language: "English",
+    eraId: "new",
+    playlistId: "PLGA2vB0LgUV4",
+  },
 ];
