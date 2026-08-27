@@ -38,6 +38,8 @@ import {
   getEraGlassStyle,
 } from "@/lib/era-world/theme-utils";
 
+import InstallAppButton from "@/components/install-app-button";
+
 const ERA_TRANSITION_MS = 800;
 
 const LANGUAGES = [
@@ -491,7 +493,7 @@ export default function Home() {
                   LANGUAGE SELECTOR
               ================================================== */}
 
-              <div className="relative z-30 flex items-center justify-center">
+              <div className="relative z-30 flex items-center justify-center gap-2">
                 <div className="relative">
                   {/* LANGUAGE BUTTON */}
 
@@ -695,7 +697,9 @@ export default function Home() {
                     </div>
                   )}
                 </div>
+              
               </div>
+
 
               {/* ==================================================
                   BRANDING

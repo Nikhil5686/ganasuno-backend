@@ -3,5 +3,20 @@ node_modules/
 dist/
 .env
 *.log
+
 # Capacitor
 android/
+
+# Environment / secrets
+frontend/.env.local
+
+# Android signing keystore
+*.jks
+*.keystore
+
+# Next.js / generated build output
+frontend/out/
+
+# Generated PWA workbox files
+frontend/public/workbox-*.js
+frontend/public/sw.js
