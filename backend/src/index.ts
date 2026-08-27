@@ -5,7 +5,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { registerRoutes } from "./routes/index.js";
 
 const app = express();
-const PORT = process.env.PORT ?? 4000;
+const PORT = Number(process.env.PORT ?? 4000);
 
 app.use(
   cors({
@@ -14,6 +14,7 @@ app.use(
       "https://www.ganasuno.studio",
       "https://ganasuno.studio",
       "http://localhost:3000",
+      "http://192.168.1.7:3000",
     ],
     credentials: true,
   }),
@@ -51,6 +52,6 @@ wss.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT,"0.0.0.0", () => {
   console.log(`GanaSuno backend running on http://localhost:${PORT}`);
 });

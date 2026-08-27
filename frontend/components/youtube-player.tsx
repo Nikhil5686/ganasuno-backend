@@ -194,11 +194,7 @@ export default function YoutubePlayer({
              * If autoplay was requested, explicitly start it.
              */
             if (autoplayRef.current) {
-              setTimeout(() => {
-                if (!cancelled) {
-                  youtubeEngine.play();
-                }
-              }, 150);
+              youtubeEngine.play();
             }
           },
 
@@ -215,7 +211,10 @@ export default function YoutubePlayer({
 
             if (playerState === window.YT.PlayerState.PLAYING) {
               youtubeEngine.setPlaying(true);
-            } else if (playerState === window.YT.PlayerState.PAUSED) {
+            } else if (
+              playerState === window.YT.PlayerState.PAUSED ||
+              playerState === window.YT.PlayerState.BUFFERING
+            ) {
               youtubeEngine.setPlaying(false);
             } else if (playerState === window.YT.PlayerState.ENDED) {
               if (endedRef.current) {
@@ -341,10 +340,6 @@ export default function YoutubePlayer({
           videoId,
           startSeconds: 0,
         });
-      }
-
-      if (autoplay) {
-        youtubeEngine.setPlaying(true);
       }
     } catch (error) {
       console.error("Failed to load next YouTube video:", error);

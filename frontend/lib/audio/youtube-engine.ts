@@ -158,12 +158,16 @@ class YouTubeEngine {
     }
 
     try {
+      // Do NOT mark as playing here.
+      // YouTube's PLAYING event is the source of truth.
       this.player.playVideo?.();
 
-      this.state.isPlaying = true;
       this.notify();
     } catch (error) {
       console.warn("Unable to start YouTube playback:", error);
+
+      this.state.isPlaying = false;
+      this.notify();
     }
   }
 
