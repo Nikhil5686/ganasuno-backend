@@ -9,16 +9,26 @@ const PORT = Number(process.env.PORT ?? 4000);
 
 app.use(
   cors({
-    origin: [
-      "https://ganasuno-kappa.vercel.app",
-      "https://www.ganasuno.studio",
-      "https://ganasuno.studio",
-      "http://localhost:3000",
-      "http://192.168.1.7:3000",
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "https://ganasuno-kappa.vercel.app",
+        "https://www.ganasuno.studio",
+        "https://ganasuno.studio",
+        "http://localhost:3000",
+        "http://192.168.1.7:3000",
+        "https://localhost",
+      ];
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
+
 app.use(express.json());
 
 registerRoutes(app);
@@ -52,6 +62,6 @@ wss.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT,"0.0.0.0", () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`GanaSuno backend running on http://localhost:${PORT}`);
 });
