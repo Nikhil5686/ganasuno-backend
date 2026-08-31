@@ -489,6 +489,7 @@ export default function Home() {
             ================================================== */}
 
             <header className="flex w-full flex-col items-center gap-5 text-center sm:gap-7">
+              
               {/* ==================================================
                   LANGUAGE SELECTOR
               ================================================== */}
@@ -697,6 +698,7 @@ export default function Home() {
                     </div>
                   )}
                 </div>
+                  <InstallAppButton />
               
               </div>
 

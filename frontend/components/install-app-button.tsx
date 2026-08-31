@@ -3,8 +3,7 @@
 export default function InstallAppButton() {
   return (
     <a
-      href="/downloads/ganasuno.apk"
-      download="GanaSuno.apk"
+      href="https://github.com/Nikhil5686/ganasuno-backend/releases/latest/download/ganasuno.apk"
       className="
         group flex items-center gap-2
         rounded-full
