@@ -95,26 +95,33 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
+              "@type": "Organization",
+              "@id": "https://ganasuno.studio/#organization",
               name: "GanaSuno",
               url: "https://ganasuno.studio",
+              logo: "https://ganasuno.studio/icon.png",
               description:
-                "GanaSuno is a nostalgic music experience where you can relive Indian songs through different eras.",
+                "GanaSuno is an Indian music discovery and curation platform focused on music across languages, regions, nostalgia, and different eras.",
 
-              creator: [
-                {
-                  "@type": "Person",
-                  name: "Swayam Chondigra",
-                  url: "https://github.com/SwayamChondigra/",
-                  sameAs: ["https://github.com/SwayamChondigra/"],
-                },
-                {
-                  "@type": "Person",
-                  name: "Nikhil Shukla",
-                  url: "https://github.com/Nikhil5686",
-                  sameAs: ["https://github.com/Nikhil5686"],
-                },
-              ],
+              founder: {
+                "@type": "Person",
+                "@id": "https://ganasuno.studio/#nikhil-shukla",
+                name: "Nikhil Shukla",
+                jobTitle: "Founder",
+                url: "https://github.com/Nikhil5686",
+                sameAs: ["https://github.com/Nikhil5686"],
+              },
+
+              member: {
+                "@type": "Person",
+                "@id": "https://ganasuno.studio/#swayam-chondigra",
+                name: "Swayam Chondigra",
+                jobTitle: "Co-founder",
+                url: "https://github.com/SwayamChondigra",
+                sameAs: ["https://github.com/SwayamChondigra"],
+              },
+
+              sameAs: ["https://www.instagram.com/ganasuno.studio/"],
             }),
           }}
         />

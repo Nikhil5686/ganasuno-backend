@@ -23,3 +23,6 @@ frontend/public/sw.js
 
 # Android APK builds
 frontend/public/downloads/*.apk
+
+*.jks
+*.keystore

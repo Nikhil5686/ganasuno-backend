@@ -16,5 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://ganasuno.studio/contact",
       lastModified: new Date(),
     },
+    {
+      url: "https://ganasuno.studio/founders",
+      lastModified: new Date(),
+    },
   ];
 }
